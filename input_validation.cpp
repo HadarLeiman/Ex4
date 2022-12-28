@@ -48,12 +48,32 @@ bool testSampleValidation(string s, vector<double> &v, int &vecSize) {
     return true;
 }
 
-bool kValidation(string strK, int trainVectorsSize, int &k) {
-    for (char c : strK) {
+bool isInteger(string intStr){
+    for (char c : intStr) {
         if (c < '0' || c > '9') {
-            cout << "k is not valid." << endl;
             return false;
         }
+    }
+    return true;
+}
+
+bool portValidation(string portStr, int &serverPort){
+    if(!isInteger(portStr)){
+        cout << "the given port is not a valid integer" << endl;
+        return false;
+    }
+    serverPort = stoi(portStr);
+    if ((0>serverPort)||(serverPort>65536)){
+        cout << "the given port is not within the valid range" << endl;
+        return false;
+    }
+    return true;
+}
+
+bool kValidation(string strK, int trainVectorsSize, int &k) {
+    if(!isInteger(strK)){
+        cout << "k is not valid integer" << endl;
+        return false;
     }
     k = stoi(strK);
     if (k > trainVectorsSize) {
