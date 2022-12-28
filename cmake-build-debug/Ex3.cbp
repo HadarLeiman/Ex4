@@ -84,6 +84,33 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/DataProcessor.cpp">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/KNeighborsClassifier.cpp">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/Server.cpp">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/distance_functions.cpp">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/includes/DataProcessor.h">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/includes/KNeighborsClassifier.h">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/includes/distance_functions.h">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/includes/input_validation.h">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/input_validation.cpp">
+			<Option target="Ex3"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/אני/CLionProjects/Ex3/main.cpp">
 			<Option target="Ex3"/>
 		</Unit>
