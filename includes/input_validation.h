@@ -24,9 +24,17 @@ bool DistFuncValid(string func);
 //the vecSize and numSamp are initialize for further validation
 bool fileReader(const string& path, vector<string>& data, vector<vector<double>>& train, vector<string>& lables, int& vecSize, int& numSamp);
 
+//this function checks if a given string is a valid integer
+//returns true if it is, false otherwise
+bool isInteger(string intStr);
+
+//This function checks if the port value is an integer and if it is within the valid range (0-65536)
+//returns true if it does or false if it doesn't.
+bool portValidation(string portStr, int &serverPort);
+
 //This function checks if the k value is an integer and if it is not bigger than the number of total
 //samples in the training set.
-//returns false if it does or true if it doesn't.
+//returns true if it does or false if it doesn't.
 bool kValidation(string strK, int trainVectorsSize, int& k);
 
 #endif //EX3_INPUT_VALIDATION_H
