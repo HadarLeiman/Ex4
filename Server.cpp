@@ -2,13 +2,20 @@
 #include <sys/socket.h>
 #include <stdio.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
 using namespace std;
 
-int main(){
-    cout << "hello" << endl;
+int main(int argc, char** argv){
+
+    // check if number of argument is valid
+    if (argc != 3) {
+        cout << "Expected 2 arguments but " << argc-1 << " were given" <<  endl;
+        return 0;
+    }
+
+    ////////////// check if arg valid
+
 	const int server_port= 5555;
 	int sock = socket(AF_INET, SOCK_STREAM,0);
 	if (sock < 0)
@@ -23,6 +30,8 @@ int main(){
 	if (bind(sock,(struct sockaddr*)&sin, sizeof(sin))<0){
 		perror("error binding socket");
 	}
+
+    //////// change to 1?
 	if (listen(sock,5)<0){
 		perror("error listening to a socket");
 	}
@@ -49,6 +58,4 @@ int main(){
 		perror("error sending to client");
 	}
 	close(sock);
-    cout << "hello" << endl;
-    return 0;
 }
