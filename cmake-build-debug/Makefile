@@ -57,10 +57,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/אני/CLionProjects/Ex3
+CMAKE_SOURCE_DIR = /mnt/c/Users/USER/CLionProjects/Ex3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug
+CMAKE_BINARY_DIR = /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug/CMakeFiles /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug/CMakeFiles /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -129,6 +129,150 @@ Ex3/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/build
 .PHONY : Ex3/fast
 
+Client.o: Client.cpp.o
+.PHONY : Client.o
+
+# target to build an object file
+Client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Client.cpp.o
+.PHONY : Client.cpp.o
+
+Client.i: Client.cpp.i
+.PHONY : Client.i
+
+# target to preprocess a source file
+Client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Client.cpp.i
+.PHONY : Client.cpp.i
+
+Client.s: Client.cpp.s
+.PHONY : Client.s
+
+# target to generate assembly for a file
+Client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Client.cpp.s
+.PHONY : Client.cpp.s
+
+DataProcessor.o: DataProcessor.cpp.o
+.PHONY : DataProcessor.o
+
+# target to build an object file
+DataProcessor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/DataProcessor.cpp.o
+.PHONY : DataProcessor.cpp.o
+
+DataProcessor.i: DataProcessor.cpp.i
+.PHONY : DataProcessor.i
+
+# target to preprocess a source file
+DataProcessor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/DataProcessor.cpp.i
+.PHONY : DataProcessor.cpp.i
+
+DataProcessor.s: DataProcessor.cpp.s
+.PHONY : DataProcessor.s
+
+# target to generate assembly for a file
+DataProcessor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/DataProcessor.cpp.s
+.PHONY : DataProcessor.cpp.s
+
+KNeighborsClassifier.o: KNeighborsClassifier.cpp.o
+.PHONY : KNeighborsClassifier.o
+
+# target to build an object file
+KNeighborsClassifier.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/KNeighborsClassifier.cpp.o
+.PHONY : KNeighborsClassifier.cpp.o
+
+KNeighborsClassifier.i: KNeighborsClassifier.cpp.i
+.PHONY : KNeighborsClassifier.i
+
+# target to preprocess a source file
+KNeighborsClassifier.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/KNeighborsClassifier.cpp.i
+.PHONY : KNeighborsClassifier.cpp.i
+
+KNeighborsClassifier.s: KNeighborsClassifier.cpp.s
+.PHONY : KNeighborsClassifier.s
+
+# target to generate assembly for a file
+KNeighborsClassifier.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/KNeighborsClassifier.cpp.s
+.PHONY : KNeighborsClassifier.cpp.s
+
+Server.o: Server.cpp.o
+.PHONY : Server.o
+
+# target to build an object file
+Server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Server.cpp.o
+.PHONY : Server.cpp.o
+
+Server.i: Server.cpp.i
+.PHONY : Server.i
+
+# target to preprocess a source file
+Server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Server.cpp.i
+.PHONY : Server.cpp.i
+
+Server.s: Server.cpp.s
+.PHONY : Server.s
+
+# target to generate assembly for a file
+Server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Server.cpp.s
+.PHONY : Server.cpp.s
+
+distance_functions.o: distance_functions.cpp.o
+.PHONY : distance_functions.o
+
+# target to build an object file
+distance_functions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/distance_functions.cpp.o
+.PHONY : distance_functions.cpp.o
+
+distance_functions.i: distance_functions.cpp.i
+.PHONY : distance_functions.i
+
+# target to preprocess a source file
+distance_functions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/distance_functions.cpp.i
+.PHONY : distance_functions.cpp.i
+
+distance_functions.s: distance_functions.cpp.s
+.PHONY : distance_functions.s
+
+# target to generate assembly for a file
+distance_functions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/distance_functions.cpp.s
+.PHONY : distance_functions.cpp.s
+
+input_validation.o: input_validation.cpp.o
+.PHONY : input_validation.o
+
+# target to build an object file
+input_validation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/input_validation.cpp.o
+.PHONY : input_validation.cpp.o
+
+input_validation.i: input_validation.cpp.i
+.PHONY : input_validation.i
+
+# target to preprocess a source file
+input_validation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/input_validation.cpp.i
+.PHONY : input_validation.cpp.i
+
+input_validation.s: input_validation.cpp.s
+.PHONY : input_validation.s
+
+# target to generate assembly for a file
+input_validation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/input_validation.cpp.s
+.PHONY : input_validation.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +306,24 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Ex3"
+	@echo "... Client.o"
+	@echo "... Client.i"
+	@echo "... Client.s"
+	@echo "... DataProcessor.o"
+	@echo "... DataProcessor.i"
+	@echo "... DataProcessor.s"
+	@echo "... KNeighborsClassifier.o"
+	@echo "... KNeighborsClassifier.i"
+	@echo "... KNeighborsClassifier.s"
+	@echo "... Server.o"
+	@echo "... Server.i"
+	@echo "... Server.s"
+	@echo "... distance_functions.o"
+	@echo "... distance_functions.i"
+	@echo "... distance_functions.s"
+	@echo "... input_validation.o"
+	@echo "... input_validation.i"
+	@echo "... input_validation.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
