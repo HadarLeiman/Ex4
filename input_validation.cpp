@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
-#include "includes/DataProcessor.h"
+#include "DataProcessor.h"
 using namespace std;
 
 bool vectorValidation(string s, vector<double>& v, char separator) {

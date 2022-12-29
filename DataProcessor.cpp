@@ -2,8 +2,8 @@
 // Created by USER on 28/12/2022.
 //
 
-#include "includes/DataProcessor.h"
-#include "includes/input_validation.h"
+#include "DataProcessor.h"
+#include "input_validation.h"
 using namespace std;
 
 vector<string> DataProcessor::readFile() {
