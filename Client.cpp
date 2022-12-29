@@ -58,6 +58,11 @@ int main(int argc, char** argv){
         //get user input.
         string userInput;
         getline(cin, userInput);
+        if (userInput=="-1"){
+            //close the program
+            close(sock);
+            return 0;
+        }
         //split the user input into 3 relevant inputs - vector, function name and number k.
         string str_vec;
         string distance_metric_name;
@@ -88,6 +93,7 @@ int main(int argc, char** argv){
         //save the user vector as data to send
         char data_addr[(str_vec).length()];
         strcpy(data_addr, str_vec.c_str());
+        //TODO delete
         cout<<data_addr;
         int data_len = strlen(data_addr);
         int sent_bytes = send(sock, data_addr, data_len,0);
@@ -105,6 +111,7 @@ int main(int argc, char** argv){
             // error
         }
         else {
+            //print the classification
             cout << buffer;
         }
         close(sock);
