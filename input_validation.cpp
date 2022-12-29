@@ -105,3 +105,46 @@ bool fileReader(const string &path, vector<string> &data, vector<vector<double>>
     numSamp = training_samples.gettrainSamplesNumber();
     return true;
 }
+//
+void splitUserInput(string input_from_user, string& vec, string& function, string& k){
+    int k_index = 0;
+    int func_index =0;
+    for (int c = input_from_user.length(); c >= 0; c--) {
+        if (input_from_user[c] == ' ' && k_index == 0) {
+            k = input_from_user.substr(c+1);
+            k_index = c;
+        }
+        else if (input_from_user[c] == ' ' && k_index > 0 && func_index == 0)  {
+            function = input_from_user.substr(c+1, 3);
+            func_index = c;
+        }
+        else if(c == 0){
+            vec = input_from_user.substr(0, func_index);
+        }
+    }
+    cout<< "vec :"<<vec<<endl;
+    cout<< "func :"<<function<<endl;
+    cout<<"k :"<<k<<endl;
+}
+
+bool ip_validation(string ip){
+    stringstream ss(ip);
+    vector<string> substrings;
+    string substring;
+    while (getline(ss, substring, '.')) {
+        substrings.push_back(substring);
+    }
+    if (substrings.size()!=4) {
+        return false;
+    }
+    for (const string& s : substrings) {
+        if (!isInteger(s)) {
+            return false;
+        }
+        int num = stoi(s);
+        if (num < 0 || num > 255) {
+            return false;
+        }
+    }
+    return true;
+}

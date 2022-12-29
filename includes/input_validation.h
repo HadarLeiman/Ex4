@@ -37,4 +37,10 @@ bool portValidation(string portStr, int &serverPort);
 //returns true if it does or false if it doesn't.
 bool kValidation(string strK, int trainVectorsSize, int& k);
 
+//this function split the user input into a string vector a function name and string k number.
+void splitUserInput(string input_from_user, string& vec, string& function, string& k);
+
+//this is the ip number validation function
+bool ip_validation(string ip);
+
 #endif //EX3_INPUT_VALIDATION_H
