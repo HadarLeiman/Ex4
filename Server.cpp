@@ -84,13 +84,28 @@ int main(int argc, char** argv){
                 continue;
             }
 
-            // TODO return classification
-            // TODO create and check k, distance_metric_name, sample vector
-            // TODO check vec size and if k is bigger
-            vector<double> sampleVector;
-            int k;
+            //split the user input into 3 relevant inputs - vector, function name and number k.
+            string str_vec;
             string distance_metric_name;
-
+            string str_k;
+            splitUserInput(buffer, str_vec, distance_metric_name, str_k);
+            // convert string to vector and check if valid
+            vector<double> sampleVector;
+            if(!testSampleValidation(str_vec, sampleVector, vecSize)){
+                // TODO send "Invalid input"
+                break;
+            }
+            // check if distance metric name is valid
+            if (!DistFuncValid(distance_metric_name)){
+                // TODO send "Invalid input"
+                break;
+            }
+            // check if k is valid and convert to int
+            int k;
+            if(!kValidation(str_k, vecSize, k)) {
+                // TODO send "Invalid input"
+                break;
+            }
             // create knn classifier, fit and predict
             KNeighborsClassifier model(k, distance_metric_name);
             model.fit(train, labels);
