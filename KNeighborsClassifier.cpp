@@ -1,7 +1,7 @@
 //
 // Created by USER on 28/12/2022.
 //
-#include "includes/KNeighborsClassifier.h"
+#include "KNeighborsClassifier.h"
 using namespace std;
 
 vector<tuple<double,string>> KNeighborsClassifier::DistanceFromData(vector<double> x_sample) {

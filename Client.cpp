@@ -11,12 +11,13 @@ using namespace std;
 #include <cstring>
 #include<algorithm>
 #include <vector>
-#include "includes/input_validation.h"
+#include "input_validation.h"
 
 //TODO *****************
 //TODO get rid of prints: port number, ip number, vector, data_addr print, split user input
 //TODO *****************
 
+//this is the main client program
 int main(int argc, char** argv){
     // check if number of argument is valid
     if (argc != 3) {
@@ -27,7 +28,7 @@ int main(int argc, char** argv){
     const char* ip = argv[1];
     string str_port = argv[2];
 
-    //TODO input validation of ip number and port number
+    //input validation of ip number and port number
     int clientPort;
     if (!portValidation(str_port, clientPort)) {
         cout<<"invalid port number";
@@ -41,10 +42,11 @@ int main(int argc, char** argv){
     const char* ip_address = ip;
     const int port_no = clientPort;
     int sock = socket(AF_INET, SOCK_STREAM,0);
+    //if socket was successfully created
     if (sock<0){
         perror("error creating socket");
     }
-
+    //trying to connect to server
     struct sockaddr_in sin;
     memset(&sin,0, sizeof(sin));
     sin.sin_family = AF_INET;
@@ -69,14 +71,13 @@ int main(int argc, char** argv){
         string str_k;
         splitUserInput(userInput,str_vec, distance_metric_name, str_k);
 
-        //sample vector validation before sending it to the server for classification
+        //sample validation before sending it to the server for classification
         vector<double> sample_vec;
         int k;
         //getting vector size
         int sample_vec_size = (str_vec).length()-(str_vec).length()/2;
         //send a fake size
         //TODO (sample vector size == train vectors size) in server?
-        //send infinity as vector size or the same vector size?
         if (!testSampleValidation(str_vec, sample_vec, sample_vec_size)){
             cout<<"user vector is invalid"<<endl;
             //cout << "invalid input";
@@ -90,17 +91,18 @@ int main(int argc, char** argv){
             cout<<"user k number is invalid"<<endl;
             //cout << "invalid input";
         }
-        //save the user vector as data to send
+        //save the user vector as valid data for the server
         char data_addr[(str_vec).length()];
         strcpy(data_addr, str_vec.c_str());
         //TODO delete
         cout<<data_addr;
+        //send info
         int data_len = strlen(data_addr);
         int sent_bytes = send(sock, data_addr, data_len,0);
         if (sent_bytes < 0){
             // error
         }
-
+        //receive info
         char buffer[4096];
         int expected_data_len = sizeof(buffer);
         int read_bytes = recv(sock, buffer, expected_data_len,0);
