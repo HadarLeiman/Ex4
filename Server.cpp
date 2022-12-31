@@ -4,11 +4,12 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <vector>
-#include "includes/input_validation.h"
-#include "includes/KNeighborsClassifier.h"
+#include "input_validation.h"
+#include "KNeighborsClassifier.h"
 using namespace std;
 
 int main(int argc, char** argv){
+    cout<<"this is the Servers program"<<endl;
 
     // check if number of argument is valid
     if (argc != 3) {
@@ -84,7 +85,8 @@ int main(int argc, char** argv){
                 perror("error receiving from client");
                 continue;
             }
-
+            cout<<"server received:"<<endl;
+            cout<< buffer<<endl;
             //split the user input into 3 relevant inputs - vector, function name and number k.
             string str_vec;
             string distance_metric_name;

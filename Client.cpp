@@ -19,6 +19,7 @@ using namespace std;
 
 //this is the main client program
 int main(int argc, char** argv){
+    cout<<"this is the Clients program"<<endl;
     // check if number of argument is valid
     if (argc != 3) {
         cout << "Expected 2 arguments but " << argc-1 << " were given" <<  endl;
@@ -92,10 +93,12 @@ int main(int argc, char** argv){
             //cout << "invalid input";
         }
         //save the user vector as valid data for the server
-        char data_addr[(str_vec).length()];
-        strcpy(data_addr, str_vec.c_str());
+        char data_addr[(userInput).length()];
+        strcpy(data_addr, userInput.c_str());
         //TODO delete
+        cout<<"the info sent to the server:";
         cout<<data_addr;
+        cout<<"****";
         //send info
         int data_len = strlen(data_addr);
         int sent_bytes = send(sock, data_addr, data_len,0);
