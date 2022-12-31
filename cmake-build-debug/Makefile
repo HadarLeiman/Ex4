@@ -57,10 +57,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/אני/CLionProjects/Ex3
+CMAKE_SOURCE_DIR = /mnt/c/Users/USER/CLionProjects/Ex3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug
+CMAKE_BINARY_DIR = /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug/CMakeFiles /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug/CMakeFiles /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/אני/CLionProjects/Ex3/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -128,6 +128,30 @@ Ex3: cmake_check_build_system
 Ex3/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/build
 .PHONY : Ex3/fast
+
+Client.o: Client.cpp.o
+.PHONY : Client.o
+
+# target to build an object file
+Client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Client.cpp.o
+.PHONY : Client.cpp.o
+
+Client.i: Client.cpp.i
+.PHONY : Client.i
+
+# target to preprocess a source file
+Client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Client.cpp.i
+.PHONY : Client.cpp.i
+
+Client.s: Client.cpp.s
+.PHONY : Client.s
+
+# target to generate assembly for a file
+Client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Ex3.dir/build.make CMakeFiles/Ex3.dir/Client.cpp.s
+.PHONY : Client.cpp.s
 
 DataProcessor.o: DataProcessor.cpp.o
 .PHONY : DataProcessor.o
@@ -282,6 +306,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Ex3"
+	@echo "... Client.o"
+	@echo "... Client.i"
+	@echo "... Client.s"
 	@echo "... DataProcessor.o"
 	@echo "... DataProcessor.i"
 	@echo "... DataProcessor.s"

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Ex3.dir/Client.cpp.o"
+  "CMakeFiles/Ex3.dir/Client.cpp.o.d"
   "CMakeFiles/Ex3.dir/DataProcessor.cpp.o"
   "CMakeFiles/Ex3.dir/DataProcessor.cpp.o.d"
   "CMakeFiles/Ex3.dir/KNeighborsClassifier.cpp.o"

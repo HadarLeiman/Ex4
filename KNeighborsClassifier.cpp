@@ -1,3 +1,6 @@
+//
+// Created by USER on 28/12/2022.
+//
 #include "includes/KNeighborsClassifier.h"
 using namespace std;
 
@@ -71,5 +74,3 @@ void KNeighborsClassifier::fit(vector<vector<double>> x, vector<string> y) {
 string KNeighborsClassifier::predict(vector<double> x_sample) {
     return mostFrequentLabel(findKNearestNeighbors(DistanceFromData(x_sample)));
 }
-
-

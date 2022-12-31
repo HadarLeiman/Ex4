@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/mnt/c/Users/\u05d0\u05e0\u05d9/CLionProjects/Ex3/cmake-build-debug"
+			"value" : "/mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "-j4"
+			"value" : "-j8"
 		},
 		{
 			"name" : "CMAKE_COLOR_DIAGNOSTICS",
@@ -627,7 +627,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/mnt/c/Users/\u05d0\u05e0\u05d9/CLionProjects/Ex3/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -687,7 +687,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/mnt/c/Users/\u05d0\u05e0\u05d9/CLionProjects/Ex3"
+			"value" : "/mnt/c/Users/USER/CLionProjects/Ex3"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1223,7 +1223,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/mnt/c/Users/\u05d0\u05e0\u05d9/CLionProjects/Ex3/cmake-build-debug"
+			"value" : "/mnt/c/Users/USER/CLionProjects/Ex3/cmake-build-debug"
 		},
 		{
 			"name" : "Ex3_IS_TOP_LEVEL",
@@ -1247,7 +1247,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/mnt/c/Users/\u05d0\u05e0\u05d9/CLionProjects/Ex3"
+			"value" : "/mnt/c/Users/USER/CLionProjects/Ex3"
 		},
 		{
 			"name" : "ProcessorCount_cmd_nproc",
