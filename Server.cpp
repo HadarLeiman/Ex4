@@ -58,7 +58,7 @@ int main(int argc, char** argv){
 
     // TODO add if its already listening?
     // Start listening
-	if (listen(sock,1)<0){
+	if (listen(sock,0)<0){
 		perror("error listening to a socket");
 	}
 
@@ -73,12 +73,14 @@ int main(int argc, char** argv){
             return 0;
         }
         // receive and send from the same customer in an infinite loop until customer closees the conection
+        // TODO bzero(buffer, expected_data_len) to zero the buffer
         while (true) {
             char buffer[4096];
             int expected_data_len = sizeof(buffer);
             int read_bytes = recv(client_sock, buffer, expected_data_len, 0);
             if (read_bytes == 0) {
                 // connection is closed - server continue to next client
+                // TODO close client socket?
                 break;
             }
             else if (read_bytes < 0) {
@@ -96,30 +98,38 @@ int main(int argc, char** argv){
             vector<double> sampleVector;
             if(!testSampleValidation(str_vec, sampleVector, vecSize)){
                 // TODO send "Invalid input"
+                cout<<"testSampleValidation failed"<<endl;
                 break;
             }
             // check if distance metric name is valid
             if (!DistFuncValid(distance_metric_name)){
-                // TODO send "Invalid input"
+                cout<<"DistFuncValid failed"<<endl;
                 break;
             }
             // check if k is valid and convert to int
             int k;
             if(!kValidation(str_k, vecSize, k)) {
                 // TODO send "Invalid input"
+                cout<<"kValidation failed"<<endl;
                 break;
             }
             // create knn classifier, fit and predict
             KNeighborsClassifier model(k, distance_metric_name);
             model.fit(train, labels);
             string ans = model.predict(sampleVector);
+            cout<<"create knn classifier, fit and predict"<<endl;
+            cout << "the answer is: " << ans << endl;
 
+            char ans_to_char_arr[(ans).length()];
+            strcpy(ans_to_char_arr, ans.c_str());
             // TODO is ok to send like this?
-            int sent_bytes = send(client_sock, (const char*)&ans, read_bytes, 0);
+            int sent_bytes = send(client_sock, ans_to_char_arr, read_bytes, 0);
             if (sent_bytes < 0) {
                 perror("error sending to client");
                 return 0;
             }
+            cout<<"sent ans to client"<<endl;
+
         }
     }
 }

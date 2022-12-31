@@ -92,34 +92,34 @@ int main(int argc, char** argv){
             cout<<"user k number is invalid"<<endl;
             //cout << "invalid input";
         }
-        //save the user vector as valid data for the server
-        char data_addr[(userInput).length()];
-        strcpy(data_addr, userInput.c_str());
-        //TODO delete
-        cout<<"the info sent to the server:";
-        cout<<data_addr;
-        cout<<"****";
-        //send info
-        int data_len = strlen(data_addr);
-        int sent_bytes = send(sock, data_addr, data_len,0);
-        if (sent_bytes < 0){
-            // error
-        }
-        //receive info
-        char buffer[4096];
-        int expected_data_len = sizeof(buffer);
-        int read_bytes = recv(sock, buffer, expected_data_len,0);
-        if (read_bytes == 0){
-            // connection is closed
-        }
-        else if (read_bytes < 0) {
-            // error
-        }
         else {
-            //print the classification
-            cout << buffer;
+            //save the user vector as valid data for the server
+            char data_addr[(userInput).length()];
+            strcpy(data_addr, userInput.c_str());
+            //TODO delete
+            cout << "the info sent to the server :";
+            cout << data_addr;
+            cout << endl << "****" << endl;
+            //send info
+            int data_len = strlen(data_addr);
+            int sent_bytes = send(sock, data_addr, data_len, 0);
+            if (sent_bytes < 0) {
+                // error
+            }
+            //receive info
+            char buffer[4096];
+            int expected_data_len = sizeof(buffer);
+            int read_bytes = recv(sock, buffer, expected_data_len, 0);
+            if (read_bytes == 0) {
+                // connection is closed
+            }
+            else if (read_bytes < 0) {
+                // error
+            }
+            else {
+                //print the classification
+                cout << "buffer content:" << buffer;
+            }
         }
-        close(sock);
-        return 0;
     }
 }
