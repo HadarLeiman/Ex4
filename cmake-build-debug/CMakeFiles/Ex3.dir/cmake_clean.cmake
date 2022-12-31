@@ -11,8 +11,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Ex3.dir/distance_functions.cpp.o.d"
   "CMakeFiles/Ex3.dir/input_validation.cpp.o"
   "CMakeFiles/Ex3.dir/input_validation.cpp.o.d"
-  "CMakeFiles/Ex3.dir/main.cpp.o"
-  "CMakeFiles/Ex3.dir/main.cpp.o.d"
   "Ex3"
   "Ex3.pdb"
 )

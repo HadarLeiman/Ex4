@@ -90,7 +90,13 @@
 		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/DataProcessor.cpp">
 			<Option target="Ex3"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/DataProcessor.h">
+			<Option target="Ex3"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/KNeighborsClassifier.cpp">
+			<Option target="Ex3"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/KNeighborsClassifier.h">
 			<Option target="Ex3"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/Server.cpp">
@@ -99,22 +105,13 @@
 		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/distance_functions.cpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/includes/DataProcessor.h">
-			<Option target="Ex3"/>
-		</Unit>
-		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/includes/KNeighborsClassifier.h">
-			<Option target="Ex3"/>
-		</Unit>
-		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/includes/distance_functions.h">
-			<Option target="Ex3"/>
-		</Unit>
-		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/includes/input_validation.h">
+		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/distance_functions.h">
 			<Option target="Ex3"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/input_validation.cpp">
 			<Option target="Ex3"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/main.cpp">
+		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/input_validation.h">
 			<Option target="Ex3"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/USER/CLionProjects/Ex3/CMakeLists.txt">
