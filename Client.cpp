@@ -9,7 +9,7 @@ using namespace std;
 #include <string>
 #include <string.h>
 #include <cstring>
-#include<algorithm>
+#include <algorithm>
 #include <vector>
 #include "input_validation.h"
 
@@ -76,8 +76,11 @@ int main(int argc, char** argv){
         vector<double> sample_vec;
         int k;
         //getting vector size
-        int sample_vec_size = (str_vec).length()-(str_vec).length()/2;
-        //send a fake size
+        string vec_without_spaces = str_vec;
+        vec_without_spaces.erase(remove(vec_without_spaces.begin(),
+                                        vec_without_spaces.end(), ' '), vec_without_spaces.end());
+        int sample_vec_size = (str_vec).length()- vec_without_spaces.length()+1;
+        //send a size
         //TODO (sample vector size == train vectors size) in server?
         if (!testSampleValidation(str_vec, sample_vec, sample_vec_size)){
             cout<<"user vector is invalid"<<endl;
@@ -118,7 +121,7 @@ int main(int argc, char** argv){
             }
             else {
                 //print the classification
-                cout << "buffer content:" << buffer;
+                cout << "buffer content:" << buffer<< endl;
             }
         }
     }

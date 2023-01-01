@@ -113,7 +113,7 @@ int main(int argc, char** argv){
                 cout<<"kValidation failed"<<endl;
                 break;
             }
-            // create knn classifier, fit and predict
+            // create knn classifier, fit and predict*.
             KNeighborsClassifier model(k, distance_metric_name);
             model.fit(train, labels);
             string ans = model.predict(sampleVector);
