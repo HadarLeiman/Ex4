@@ -124,7 +124,7 @@ int main(int argc, char** argv){
             }
             // check if k is valid and convert to int
             int k;
-            if(!kValidation(str_k, vecSize, k)) {
+            if(!kValidation(str_k, numberOfSamples, k)) {
                 // send "Invalid input" to client
                 int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {

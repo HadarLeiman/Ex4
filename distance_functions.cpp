@@ -39,8 +39,8 @@ double canberraDistance(vector<double> v1, vector<double> v2) {
             dist += (abs(v1.at(i) - v2.at(i))) / d;
         }
         else {
-            cout << "0 division problem ";
-            return 1.79769e+308;
+            // 0 division problem
+            return 1.79769e-308;
         }
     }
     return dist;
