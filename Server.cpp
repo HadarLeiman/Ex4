@@ -10,15 +10,13 @@
 using namespace std;
 
 int main(int argc, char** argv){
-    cout<<"this is the Servers program"<<endl;
-
     // check if number of argument is valid
     if (argc != 3) {
         cout << "Expected 2 arguments but " << argc-1 << " were given" <<  endl;
         return 0;
     }
 
-    // read from file
+    // read data from file
     const string path = argv[1];
     vector<string> data;
     vector<vector<double>> train;
@@ -54,6 +52,7 @@ int main(int argc, char** argv){
     // Bind socket
 	if (bind(sock,(struct sockaddr*)&sin, sizeof(sin))<0){
 		perror("error binding socket");
+        close(sock);
         return 0;
 	}
 
@@ -61,50 +60,52 @@ int main(int argc, char** argv){
     // Start listening
 	if (listen(sock,0)<0){
 		perror("error listening to a socket");
-	}
+        close(sock);
+        return 0;
+    }
 
-    // accept one customer at a time in an infinite loop
+    // accept one client at a time in an infinite loop
     while(true) {
+        // accept client
         struct sockaddr_in client_sin;
         unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
             perror("error accepting client");
-            return 0;
+            continue;
         }
-        // receive and send from the same customer in an infinite loop until customer closees the conection
-        // TODO bzero(buffer, expected_data_len) to zero the buffer
+        // receive and send from the same client in an infinite loop until client closes the connection
         while (true) {
-            char buffer[4096];
-            bzero(buffer, 4096);
-            int expected_data_len = sizeof(buffer);
-            int read_bytes = recv(client_sock, buffer, expected_data_len, 0);
+            // receive data from client
+            char dataFromClient[4096];
+            bzero(dataFromClient, 4096);
+            int expected_data_len = sizeof(dataFromClient);
+            int read_bytes = recv(client_sock, dataFromClient, expected_data_len, 0);
+            // connection is closed - server continue to next client
             if (read_bytes == 0) {
-                // connection is closed - server continue to next client
-                // TODO close client socket?
                 close(client_sock);
                 break;
             }
+            // error receiving from client
             else if (read_bytes < 0) {
                 perror("error receiving from client");
                 continue;
             }
-            cout<<"server received:"<<endl;
-            cout<< buffer<<endl;
             //split the user input into 3 relevant inputs - vector, function name and number k.
             string str_vec;
             string distance_metric_name;
             string str_k;
-            splitUserInput(buffer, str_vec, distance_metric_name, str_k);
-            char invalidInputMessage[] = "Invalid input check check";
+            splitUserInput(dataFromClient, str_vec, distance_metric_name, str_k);
+            char invalidInputMessage[] = "Invalid input";
             // convert string to vector and check if valid
             vector<double> sampleVector;
             if(!testSampleValidation(str_vec, sampleVector, vecSize)){
                 // send "Invalid input" to client
-                cout<<"testSampleValidation failed"<<endl;
                 int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {
                     perror("error sending to client");
+                    close(client_sock);
+                    close(sock);
                     return 0;
                 }
                 continue;
@@ -112,10 +113,11 @@ int main(int argc, char** argv){
             // check if distance metric name is valid
             if (!DistFuncValid(distance_metric_name)){
                 // send "Invalid input" to client
-                cout<<"testSampleValidation failed"<<endl;
                 int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {
                     perror("error sending to client");
+                    close(client_sock);
+                    close(sock);
                     return 0;
                 }
                 continue;
@@ -124,20 +126,19 @@ int main(int argc, char** argv){
             int k;
             if(!kValidation(str_k, vecSize, k)) {
                 // send "Invalid input" to client
-                cout<<"testSampleValidation failed"<<endl;
                 int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {
                     perror("error sending to client");
+                    close(client_sock);
+                    close(sock);
                     return 0;
                 }
                 continue;
             }
-            // create knn classifier, fit and predict*.
+            // create knn classifier, fit and predict.
             KNeighborsClassifier model(k, distance_metric_name);
             model.fit(train, labels);
             string ans = model.predict(sampleVector);
-            cout<<"create knn classifier, fit and predict"<<endl;
-            cout << "the answer is: " << ans << endl;
 
             // send answer to client
             char ans_to_char_arr[(ans).length()];
@@ -145,9 +146,10 @@ int main(int argc, char** argv){
             int sent_bytes = send(client_sock, ans_to_char_arr, sizeof(ans_to_char_arr), 0);
             if (sent_bytes < 0) {
                 perror("error sending to client");
+                close(client_sock);
+                close(sock);
                 return 0;
             }
-            cout<<"sent ans to client"<<endl;
         }
     }
 }
