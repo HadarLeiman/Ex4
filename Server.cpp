@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <vector>
+#include <unistd.h>
 #include "input_validation.h"
 #include "KNeighborsClassifier.h"
 using namespace std;
@@ -62,7 +63,6 @@ int main(int argc, char** argv){
 		perror("error listening to a socket");
 	}
 
-    // TODO need loop here?
     // accept one customer at a time in an infinite loop
     while(true) {
         struct sockaddr_in client_sin;
@@ -81,6 +81,7 @@ int main(int argc, char** argv){
             if (read_bytes == 0) {
                 // connection is closed - server continue to next client
                 // TODO close client socket?
+                close(client_sock);
                 break;
             }
             else if (read_bytes < 0) {
@@ -94,24 +95,41 @@ int main(int argc, char** argv){
             string distance_metric_name;
             string str_k;
             splitUserInput(buffer, str_vec, distance_metric_name, str_k);
+            char invalidInputMessage[] = "Invalid input";
             // convert string to vector and check if valid
             vector<double> sampleVector;
             if(!testSampleValidation(str_vec, sampleVector, vecSize)){
-                // TODO send "Invalid input"
+                // send "Invalid input" to client
                 cout<<"testSampleValidation failed"<<endl;
-                break;
+                int sent_bytes = send(client_sock, invalidInputMessage, read_bytes, 0);
+                if (sent_bytes < 0) {
+                    perror("error sending to client");
+                    return 0;
+                }
+                continue;
             }
             // check if distance metric name is valid
             if (!DistFuncValid(distance_metric_name)){
-                cout<<"DistFuncValid failed"<<endl;
-                break;
+                // send "Invalid input" to client
+                cout<<"testSampleValidation failed"<<endl;
+                int sent_bytes = send(client_sock, invalidInputMessage, read_bytes, 0);
+                if (sent_bytes < 0) {
+                    perror("error sending to client");
+                    return 0;
+                }
+                continue;
             }
             // check if k is valid and convert to int
             int k;
             if(!kValidation(str_k, vecSize, k)) {
-                // TODO send "Invalid input"
-                cout<<"kValidation failed"<<endl;
-                break;
+                // send "Invalid input" to client
+                cout<<"testSampleValidation failed"<<endl;
+                int sent_bytes = send(client_sock, invalidInputMessage, read_bytes, 0);
+                if (sent_bytes < 0) {
+                    perror("error sending to client");
+                    return 0;
+                }
+                continue;
             }
             // create knn classifier, fit and predict*.
             KNeighborsClassifier model(k, distance_metric_name);
@@ -120,16 +138,15 @@ int main(int argc, char** argv){
             cout<<"create knn classifier, fit and predict"<<endl;
             cout << "the answer is: " << ans << endl;
 
+            // send answer to client
             char ans_to_char_arr[(ans).length()];
             strcpy(ans_to_char_arr, ans.c_str());
-            // TODO is ok to send like this?
             int sent_bytes = send(client_sock, ans_to_char_arr, read_bytes, 0);
             if (sent_bytes < 0) {
                 perror("error sending to client");
                 return 0;
             }
             cout<<"sent ans to client"<<endl;
-
         }
     }
 }
