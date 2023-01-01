@@ -42,7 +42,6 @@ bool testSampleValidation(string s, vector<double> &v, int &vecSize) {
         return false;
     }
     else if (vecSize != v.size()) {
-        cout << "vector size is invalid." << endl;
         return false;
     }
     return true;
@@ -72,12 +71,12 @@ bool portValidation(string portStr, int &serverPort){
 
 bool kValidation(string strK, int trainVectorsSize, int &k) {
     if(!isInteger(strK)){
-        cout << "k is not valid integer" << endl;
+        // "k is not valid integer"
         return false;
     }
     k = stoi(strK);
     if (k > trainVectorsSize) {
-        cout << "k bigger than the number of vectors in training set." << endl;
+        //"k bigger than the number of vectors in training set."
         return false;
     }
     return true;
@@ -87,7 +86,7 @@ bool DistFuncValid(string func) {
     if (func == "AUC" || func == "MAN" || func == "CHB" || func == "CAN" || func == "MIN") {
         return true;
     }
-    cout << "distance function is not valid" << endl;
+    //"distance function is not valid"
     return false;
 }
 
@@ -122,9 +121,6 @@ void splitUserInput(string input_from_user, string& vec, string& function, strin
             vec = input_from_user.substr(0, func_index);
         }
     }
-    cout<< "vec :"<<vec<<endl;
-    cout<< "func :"<<function<<endl;
-    cout<<"k :"<<k<<endl;
 }
 
 bool ip_validation(string ip){
