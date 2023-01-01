@@ -85,15 +85,18 @@ int main(int argc, char** argv){
         if (!testSampleValidation(str_vec, sample_vec, sample_vec_size)){
             cout<<"user vector is invalid"<<endl;
             //cout << "invalid input";
+            continue;
         }
         else if (!DistFuncValid(distance_metric_name)){
             cout<<"user metric function is invalid"<<endl;
             //cout << "invalid input";
+            continue;
         }
         //TODO (k < train samples size) check in server?
         else if(!isInteger(str_k)){
             cout<<"user k number is invalid"<<endl;
             //cout << "invalid input";
+            continue;
         }
         else {
             //save the user vector as valid data for the server
@@ -108,6 +111,9 @@ int main(int argc, char** argv){
             int sent_bytes = send(sock, data_addr, data_len, 0);
             if (sent_bytes < 0) {
                 // error
+                cout<< "error sending gto server"<<endl;
+                close(sock);
+                return 0;
             }
             //receive info
             char buffer[4096];
@@ -115,9 +121,13 @@ int main(int argc, char** argv){
             int read_bytes = recv(sock, buffer, expected_data_len, 0);
             if (read_bytes == 0) {
                 // connection is closed
+                close(sock);
+                return 0;
             }
             else if (read_bytes < 0) {
-                // error
+                cout<<"error receiving from server";
+                close(sock);
+                return 0;
             }
             else {
                 //print the classification
