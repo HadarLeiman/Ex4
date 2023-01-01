@@ -76,6 +76,7 @@ int main(int argc, char** argv){
         // TODO bzero(buffer, expected_data_len) to zero the buffer
         while (true) {
             char buffer[4096];
+            bzero(buffer, 4096);
             int expected_data_len = sizeof(buffer);
             int read_bytes = recv(client_sock, buffer, expected_data_len, 0);
             if (read_bytes == 0) {
@@ -95,13 +96,13 @@ int main(int argc, char** argv){
             string distance_metric_name;
             string str_k;
             splitUserInput(buffer, str_vec, distance_metric_name, str_k);
-            char invalidInputMessage[] = "Invalid input";
+            char invalidInputMessage[] = "Invalid input check check";
             // convert string to vector and check if valid
             vector<double> sampleVector;
             if(!testSampleValidation(str_vec, sampleVector, vecSize)){
                 // send "Invalid input" to client
                 cout<<"testSampleValidation failed"<<endl;
-                int sent_bytes = send(client_sock, invalidInputMessage, read_bytes, 0);
+                int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {
                     perror("error sending to client");
                     return 0;
@@ -112,7 +113,7 @@ int main(int argc, char** argv){
             if (!DistFuncValid(distance_metric_name)){
                 // send "Invalid input" to client
                 cout<<"testSampleValidation failed"<<endl;
-                int sent_bytes = send(client_sock, invalidInputMessage, read_bytes, 0);
+                int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {
                     perror("error sending to client");
                     return 0;
@@ -124,7 +125,7 @@ int main(int argc, char** argv){
             if(!kValidation(str_k, vecSize, k)) {
                 // send "Invalid input" to client
                 cout<<"testSampleValidation failed"<<endl;
-                int sent_bytes = send(client_sock, invalidInputMessage, read_bytes, 0);
+                int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
                 if (sent_bytes < 0) {
                     perror("error sending to client");
                     return 0;
@@ -141,7 +142,7 @@ int main(int argc, char** argv){
             // send answer to client
             char ans_to_char_arr[(ans).length()];
             strcpy(ans_to_char_arr, ans.c_str());
-            int sent_bytes = send(client_sock, ans_to_char_arr, read_bytes, 0);
+            int sent_bytes = send(client_sock, ans_to_char_arr, sizeof(ans_to_char_arr), 0);
             if (sent_bytes < 0) {
                 perror("error sending to client");
                 return 0;

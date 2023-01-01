@@ -117,8 +117,10 @@ int main(int argc, char** argv){
             }
             //receive info
             char buffer[4096];
+            bzero(buffer, 4096);
             int expected_data_len = sizeof(buffer);
             int read_bytes = recv(sock, buffer, expected_data_len, 0);
+            cout<<"clients read bytes"<<read_bytes<<endl;
             if (read_bytes == 0) {
                 // connection is closed
                 close(sock);
