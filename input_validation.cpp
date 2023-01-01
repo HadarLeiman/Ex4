@@ -10,7 +10,7 @@ using namespace std;
 
 bool vectorValidation(string s, vector<double>& v, char separator) {
     if (s.length()==0) {
-        cout << "vector is empty." << endl;
+        // vector is empty.
         return false;
     }
 
@@ -27,7 +27,7 @@ bool vectorValidation(string s, vector<double>& v, char separator) {
                 feature = "";
             }
             else {
-                cout << "Invalid input, only double numbers are valid." << endl;
+                // Invalid input, only double numbers are valid.
                 return false;
             }
         }
