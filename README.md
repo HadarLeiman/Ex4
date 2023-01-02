@@ -3,13 +3,15 @@ This program is a TCP server and client in c++ for Linux.
 Clients are able to connect to the server using the server's port number and ask it for samples classification of specific data vectors.  
 The server is running the knn algorithm and returns a predicted classification for the client which the client prints to the user.  
 This directory contains 2 executable programs that can be created using the 'make' command.  
+
 The server program is initialized with 2 command line arguments:  
 (1) path to a dataset file.  
 (2) port number.  
 The client program is also initialized with 2 command line arguments:  
 (1) IP number of the user using the program.  
 (2) port number of the server to connect to.  
-In general time the server is waiting for the clients, the server can take care of one client at a time. when a client is done using the server it sends (-1) to the server and closes the socket. the server is now open for other clients.
+
+In general the server is waiting for the clients, the server can take care of one client at a time. when a client is done using the server it sends (-1) to the server and closes the socket. the server is now open for other clients.
 If a new client is trying to connect to the server while the server is connected to a former client the communication with the new client will stay on wait.
 If the user enters an invalid input the program will print "Invalid input" message to the screen and ask the user to re-enter his input.
 
