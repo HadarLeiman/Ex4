@@ -37,7 +37,9 @@ In case of invalid sample input, the program will print invalid input.
 The client will continue to receive sample vectors from the user and send them to the server for classification until the user enters -1.
 
 ### compile and run the example:  
+The server:  
 <img src="https://user-images.githubusercontent.com/72741540/210270630-672e618a-e945-4c12-807f-c62512b7ca46.png" width="1000" height="300">
+The Client:  
 <img src="https://user-images.githubusercontent.com/72741540/210270688-6a7b66f5-9064-41c6-8fba-527d2a2a0999.png" width="300" height="150">
 
 
