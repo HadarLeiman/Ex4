@@ -29,12 +29,12 @@ If the user enters an invalid input the program will print "Invalid input" messa
 In the client program Insert the vector sample as a string of numbers with spaces between them a distance metric name and a number k.  
 `[vector] [metric] [k]`
 where k is an integer and a valid distance function name is one of the following:  
-AUC (for Euclidean distance), MAN (for Manhattan distance), CHB (for Chebyshev distance), CAN (for Canberra distance) or MIN (for Minkowski distance)
-for example: `1 2 3`. Then press enter. 
-the input vector needs to be in the same size as the vectors in the training data.  
+AUC (for Euclidean distance), MAN (for Manhattan distance), CHB (for Chebyshev distance), CAN (for Canberra distance) or MIN (for Minkowski distance)  
+for example: `1 2 3 4 MAN 3`. Then press enter. 
+the input vector needs to be the same size as the vectors in the training data.  
 The label prediction will be printed on the screen.  
-In case of invalid sample input, An error message will be printed.  
-The program will continue to receive sample vectors in an infinite loop.
+In case of invalid sample input, the program will print invalid input.  
+The client will continue to receive sample vectors from the user and send them to the server for classification until the user enters -1.
 
 ### compile and run the example:  
 <img src="https://user-images.githubusercontent.com/72741540/207402120-c71721bc-94f0-4884-ab2e-482e2ebb4ea2.png" width="350" height="180">
