@@ -28,7 +28,6 @@ If the user enters an invalid input the program will print "Invalid input" messa
 ## **How to use:**
 In the client program Insert the vector sample as a string of numbers with spaces between them a distance metric name and a number k.  
 `[vector] [metric] [k]`
-  
 where k is an integer and a valid distance function name is one of the following:  
 AUC (for Euclidean distance), MAN (for Manhattan distance), CHB (for Chebyshev distance), CAN (for Canberra distance) or MIN (for Minkowski distance)
 for example: `1 2 3`. Then press enter. 
