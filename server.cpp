@@ -48,7 +48,6 @@ int main(int argc, char** argv){
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = INADDR_ANY;
 	sin.sin_port = htons(server_port);
-
     // Bind socket
 	if (bind(sock,(struct sockaddr*)&sin, sizeof(sin))<0){
 		perror("error binding socket");

@@ -16,4 +16,4 @@ set(CMAKE_CXX_STANDARD 17)
 #        DataProcessor.cpp
 #        input_validation.cpp
 #        )
-add_executable(Ex3 input_validation.h Server.cpp distance_functions.cpp distance_functions.h KNeighborsClassifier.cpp KNeighborsClassifier.h DataProcessor.cpp DataProcessor.h input_validation.cpp Client.cpp)
+add_executable(Ex3 input_validation.h server.cpp distance_functions.cpp distance_functions.h KNeighborsClassifier.cpp KNeighborsClassifier.h DataProcessor.cpp DataProcessor.h input_validation.cpp client.cpp)

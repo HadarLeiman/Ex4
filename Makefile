@@ -15,22 +15,22 @@ BUILD_FILES += input_validation.o
 BUILD_FILES += KNeighborsClassifier.o
 
 
-all: $(BUILD_FILES) Server.o Client.o
-	$(CC) $(BUILD_FILES) Server.o -o Server.out
-	$(CC) $(BUILD_FILES) Client.o -o Client.out
+all: $(BUILD_FILES) server.o client.o
+	$(CC) $(BUILD_FILES) server.o -o server.out
+	$(CC) $(BUILD_FILES) client.o -o client.out
 
-run: $(BUILD_FILES) Server.o Client.o
-	$(CC) $(BUILD_FILES) Server.o -o Server.out & $(CC) $(BUILD_FILES) Client.o -o Client.out
+run: $(BUILD_FILES) server.o client.o
+	$(CC) $(BUILD_FILES) server.o -o server.out & $(CC) $(BUILD_FILES) client.o -o client.out
 
 # Build the algs folder
 %.o: %.cpp %.h
 	$(CC) -c -o $@ $<
 
-Server.o: Server.cpp
-	$(CC) -c -o Server.o Server.cpp
-Client.o: Client.cpp
-	$(CC) -c -o Client.o Client.cpp
+server.o: server.cpp
+	$(CC) -c -o server.o server.cpp
+client.o: client.cpp
+	$(CC) -c -o client.o client.cpp
 
 # Clean command
 clean:
-	$(CLN) *.o Server.out Client.out
+	$(CLN) *.o server.out client.out
