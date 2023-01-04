@@ -75,6 +75,10 @@ bool kValidation(string strK, int trainVectorsSize, int &k) {
         return false;
     }
     k = stoi(strK);
+    if (k < 1){
+        // "k is not positive"
+        return false;
+    }
     if (k > trainVectorsSize) {
         //"k bigger than the number of vectors in training set."
         return false;
@@ -98,6 +102,7 @@ bool fileReader(const string &path, vector<string> &data, vector<vector<double>>
         return false;
     }
     if (!(training_samples.get_train_data(data, train, lables))) {
+        cout << "file content is not valid." << endl;
         return false;
     }
     vecSize = training_samples.getVectorSize();
