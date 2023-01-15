@@ -10,11 +10,10 @@
 using namespace std;
 
 class Command {
-private:
+public:
     string description;
     DefaultIO dio;
-public:
-    void execute();
+    void execute(){};
 };
 
 

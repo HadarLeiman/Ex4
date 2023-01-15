@@ -11,9 +11,8 @@ using namespace std;
 
 class DefaultIO {
 public:
-    string read();
-    void write(string str);
-
+    string read(){};
+    void write(string str){};
 };
 
 
