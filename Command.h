@@ -7,12 +7,14 @@
 #include <iostream>
 #include <string>
 #include "DefaultIO.h"
+#include "Data.h"
 using namespace std;
 
 class Command {
-private:
+protected:
     string description;
     DefaultIO dio;
+    Data* data;
 public:
     void execute();
 };
