@@ -10,7 +10,7 @@
 using namespace std;
 
 class DefaultIO {
-protected:
+public:
     string read();
     void write(string str);
 
