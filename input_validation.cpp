@@ -128,6 +128,21 @@ void splitUserInput(string input_from_user, string& vec, string& function, strin
     }
 }
 
+void splitAlgorithmSettings(string input, string& function, string& k){
+    bool flag = 1;
+    for (int i = 0; i < input.length(); i++){
+        if(input[i]=' '){
+            flag=0;
+        }
+        else if(flag){
+            k += input[i];
+        }
+        else if(!flag){
+            function+=input[i];
+        }
+    }
+}
+
 bool ip_validation(string ip){
     stringstream ss(ip);
     vector<string> substrings;

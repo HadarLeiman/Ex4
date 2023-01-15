@@ -40,6 +40,9 @@ bool kValidation(string strK, int trainVectorsSize, int& k);
 //this function split the user input into a string vector a function name and string k number.
 void splitUserInput(string input_from_user, string& vec, string& function, string& k);
 
+//this function split the Algorithm Settings (k and metric function)
+void splitAlgorithmSettings(string input, string& function, string& k);
+
 //this is the ip number validation function
 bool ip_validation(string ip);
 

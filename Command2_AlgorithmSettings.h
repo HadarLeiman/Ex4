@@ -4,7 +4,7 @@
 
 #ifndef EX4_COMMAND2_ALGORITHMSETTINGS_H
 #define EX4_COMMAND2_ALGORITHMSETTINGS_H
-
+#include "input_validation.h"
 #include "Command.h"
 
 class Command2_AlgorithmSettings : Command{
