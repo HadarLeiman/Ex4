@@ -9,32 +9,24 @@
 #include "KNeighborsClassifier.h"
 using namespace std;
 
+void *ThreadperClient(void*) {
+    DefaultIO =
+    CLI =
+}
+
 int main(int argc, char** argv){
     // check if number of argument is valid
-    if (argc != 3) {
-        cout << "Expected 2 arguments but " << argc-1 << " were given" <<  endl;
+    if (argc != 2) {
+        cout << "Expected 1 arguments but " << argc-1 << " were given" <<  endl;
         return 0;
     }
-
-    // read data from file
-    const string path = argv[1];
-    vector<string> data;
-    vector<vector<double>> train;
-    vector<string> labels;
-    int vecSize = 0;
-    int numberOfSamples = 0;
-    if (!fileReader(path, data, train, labels, vecSize, numberOfSamples)) {
-        return 0;
-    }
-
     // get port value + validation
-    string port_str = argv[2];
+    string port_str = argv[1];
     int server_port;
     if(!portValidation(port_str, server_port)){
         return 0;
     }
-
-    // Create a socket
+    // Create server socket
     int sock = socket(AF_INET, SOCK_STREAM,0);
     // Check If the socket is created
 	if (sock < 0){
@@ -55,7 +47,6 @@ int main(int argc, char** argv){
         return 0;
 	}
 
-    // TODO add if its already listening?
     // Start listening
 	if (listen(sock,0)<0){
 		perror("error listening to a socket");
@@ -63,7 +54,6 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    // accept one client at a time in an infinite loop
     while(true) {
         // accept client
         struct sockaddr_in client_sin;
@@ -73,6 +63,15 @@ int main(int argc, char** argv){
             perror("error accepting client");
             continue;
         }
+
+
+
+
+
+
+
+
+
         // receive and send from the same client in an infinite loop until client closes the connection
         while (true) {
             // receive data from client
