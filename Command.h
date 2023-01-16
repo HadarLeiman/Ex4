@@ -11,12 +11,11 @@
 using namespace std;
 
 class Command {
-protected:
+public:
     string description;
     DefaultIO dio;
+    void execute(){};
     Data* data;
-public:
-    void execute();
 };
 
 

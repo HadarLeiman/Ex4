@@ -10,9 +10,88 @@ using namespace std;
 #include <algorithm>
 #include <vector>
 #include "input_validation.h"
+#include "Command1_UploadData.h"
+#include "Command.h"
+#include "DefaultIO.h"
+#include "StandardIO.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <pthread.h>
 
+
+void *receiveThread(void* s) {
+    int sock = *((int*)s);
+    while(true) {
+        // receive info from server
+        char buffer[4096];
+        bzero(buffer, 4096);
+        int expected_data_len = sizeof(buffer);
+        // receive
+        int read_bytes = recv(sock, buffer, expected_data_len, 0);
+        if (read_bytes == 0) {
+            // connection is closed
+            close(sock);
+            return 0;
+        } else if (read_bytes < 0) {
+            cout << "Error receiving data from server";
+            close(sock);
+            return 0;
+        }
+        // print to user
+        cout << buffer << endl;
+    }
+}
+
+void *sendThread(void* s) {
+    int sock = *((int*)s);
+    while(true) {
+    // send user input to the server
+        char data_addr[4096];
+        bzero(data_addr, 4096);
+        // get user input
+        string userInput = "";
+        cin >> userInput;
+
+        // check for file path - command number 1
+        string endOfuserInput = (userInput.substr(userInput.size()-3));
+        if(endOfuserInput == "csv") {
+            // get user input
+            string path = "";
+            cin >> path;
+            string data;
+            ifstream file(path);
+            if (file) {
+                string line = "";
+                while (getline(file, line)) {
+                    data += line;
+                    data += "\n";
+                }
+                file.close();
+            }
+            // problem reading file
+            if(data.size() == 0) {
+                cout << "invalid input";
+                continue;
+            }
+            strcpy(data_addr, data.c_str());
+        } else {
+            strcpy(data_addr, userInput.c_str());
+        }
+
+        // send info to server
+        int data_len = strlen(data_addr);
+        int sent_bytes = send(sock, data_addr, data_len, 0);
+        if (sent_bytes < 0) {
+            //error
+            cout << "Error sending data to server" << endl;
+            close(sock);
+            return 0;
+        }
+    }
+}
 //this is the main client program
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
     // check if number of argument is valid
     if (argc != 3) {
         cout << "Expected 2 arguments but " << argc-1 << " were given" <<  endl;
@@ -52,76 +131,20 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    while(true){
-        // get user input.
-        string userInput;
-        getline(cin, userInput);
-        if (userInput=="-1"){
-            // close the program
-            close(sock);
-            return 0;
-        }
-        // split the user input into 3 relevant inputs - vector, function name and number k.
-        string str_vec;
-        string distance_metric_name;
-        string str_k;
-        splitUserInput(userInput,str_vec, distance_metric_name, str_k);
-
-        // sample validation before sending it to the server for classification
-        vector<double> sample_vec;
-        int k;
-        // getting vector size
-        string vec_without_spaces = str_vec;
-        vec_without_spaces.erase(remove(vec_without_spaces.begin(),
-                                        vec_without_spaces.end(), ' '), vec_without_spaces.end());
-        int sample_vec_size = (str_vec).length()- vec_without_spaces.length()+1;
-        //vector validation
-        if (!testSampleValidation(str_vec, sample_vec, sample_vec_size)){
-            cout << "invalid input"<<endl;
-            continue;
-        }
-        // metric validation
-        else if (!DistFuncValid(distance_metric_name)){
-            cout << "invalid input"<<endl;
-            continue;
-        }
-        // k validation
-        else if(!isInteger(str_k)){
-            cout << "invalid input"<<endl;
-            continue;
-        }
-        else {
-            // save the user vector as valid data for the server
-            char data_addr[(userInput).length()];
-            strcpy(data_addr, userInput.c_str());
-            // send info to server
-            int data_len = strlen(data_addr);
-            int sent_bytes = send(sock, data_addr, data_len, 0);
-            if (sent_bytes < 0) {
-                // error
-                cout<< "Error sending data to server"<< endl;
-                close(sock);
-                return 0;
-            }
-            //receive info from server
-            char buffer[4096];
-            bzero(buffer, 4096);
-            int expected_data_len = sizeof(buffer);
-            int read_bytes = recv(sock, buffer, expected_data_len, 0);
-            if (read_bytes == 0) {
-                // connection is closed
-                close(sock);
-                return 0;
-            }
-            else if (read_bytes < 0) {
-                cout<<"Error receiving data from server";
-                close(sock);
-                return 0;
-            }
-            else {
-                //print the classification or error message from server
-                cout<< buffer<< endl;
-            }
-        }
+    while(true) {
+        // the tread identifiers
+        pthread_t pthread_receive;
+        pthread_t pthread_send;
+        // set of thread attributes
+        pthread_attr_t attr;
+        // set the default attributes of the thread
+        pthread_attr_init(&attr);
+        //create the threads
+        pthread_create(&pthread_receive, &attr, receiveThread, (void *)sock);
+        pthread_create(&pthread_send, &attr, sendThread, (void *)sock);
+        // wait for the threads to exit;
+        pthread_join(pthread_receive, NULL);
+        pthread_join(pthread_send, NULL);
+        close(sock);
     }
 }
