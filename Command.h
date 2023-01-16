@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include "DefaultIO.h"
+#include "Data.h"
 using namespace std;
 
 class Command {
@@ -14,6 +15,7 @@ public:
     string description;
     DefaultIO dio;
     void execute(){};
+    Data* data;
 };
 
 
