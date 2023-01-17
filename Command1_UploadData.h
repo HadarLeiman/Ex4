@@ -7,12 +7,16 @@
 #include <iostream>
 #include <string>
 #include "DefaultIO.h"
+#include "SocketIO.h"
 #include "Command.h"
 #include <fstream>
+#include <string.h>
+#include <vector>
+#include "input_validation.h"
 
 class Command1_UploadData : public Command {
 public:
-    Command1_UploadData(string description , DefaultIO dio);
+    Command1_UploadData(DefaultIO *dio, Data *data);
     void execute();
 
 };

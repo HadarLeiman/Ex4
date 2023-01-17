@@ -7,14 +7,23 @@
 #include <unistd.h>
 #include "input_validation.h"
 #include "KNeighborsClassifier.h"
+#include "DefaultIO.h"
+#include "SocketIO.h"
+#include "CLI.h"
+#include <pthread.h>
 using namespace std;
 
-void *ThreadperClient(void*) {
-    DefaultIO =
-    CLI =
+void *ThreadperClient(void* c) {
+    int* client_sock = (int*)c;
+    DefaultIO* dio = new SocketIO(*client_sock);
+    CLI cli = CLI(dio);
+    cli.start();
+    //TODO delete
+//    delete dio;
 }
 
 int main(int argc, char** argv){
+    cout<<"this is the server program";
     // check if number of argument is valid
     if (argc != 2) {
         cout << "Expected 1 arguments but " << argc-1 << " were given" <<  endl;
@@ -53,7 +62,8 @@ int main(int argc, char** argv){
         close(sock);
         return 0;
     }
-
+    // create thread array
+    vector<pthread_t> workers;
     while(true) {
         // accept client
         struct sockaddr_in client_sin;
@@ -61,93 +71,34 @@ int main(int argc, char** argv){
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
             perror("error accepting client");
-            continue;
+//            continue;
+            break;
         }
-
-
-
-
-
-
-
-
-
-        // receive and send from the same client in an infinite loop until client closes the connection
-        while (true) {
-            // receive data from client
-            char dataFromClient[4096];
-            bzero(dataFromClient, 4096);
-            int expected_data_len = sizeof(dataFromClient);
-            int read_bytes = recv(client_sock, dataFromClient, expected_data_len, 0);
-            // connection is closed - server continue to next client
-            if (read_bytes == 0) {
-                close(client_sock);
-                break;
-            }
-            // error receiving from client
-            else if (read_bytes < 0) {
-                perror("error receiving from client");
-                continue;
-            }
-            //split the user input into 3 relevant inputs - vector, function name and number k.
-            string str_vec;
-            string distance_metric_name;
-            string str_k;
-            splitUserInput(dataFromClient, str_vec, distance_metric_name, str_k);
-            char invalidInputMessage[] = "Invalid input";
-            // convert string to vector and check if valid
-            vector<double> sampleVector;
-            if(!testSampleValidation(str_vec, sampleVector, vecSize)){
-                // send "Invalid input" to client
-                int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
-                if (sent_bytes < 0) {
-                    perror("error sending to client");
-                    close(client_sock);
-                    close(sock);
-                    return 0;
-                }
-                continue;
-            }
-            // check if distance metric name is valid
-            if (!DistFuncValid(distance_metric_name)){
-                // send "Invalid input" to client
-                int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
-                if (sent_bytes < 0) {
-                    perror("error sending to client");
-                    close(client_sock);
-                    close(sock);
-                    return 0;
-                }
-                continue;
-            }
-            // check if k is valid and convert to int
-            int k;
-            if(!kValidation(str_k, numberOfSamples, k)) {
-                // send "Invalid input" to client
-                int sent_bytes = send(client_sock, invalidInputMessage, sizeof(invalidInputMessage), 0);
-                if (sent_bytes < 0) {
-                    perror("error sending to client");
-                    close(client_sock);
-                    close(sock);
-                    return 0;
-                }
-                continue;
-            }
-            // create knn classifier, fit and predict.
-            KNeighborsClassifier model(k, distance_metric_name);
-            model.fit(train, labels);
-            string ans = model.predict(sampleVector);
-
-            // send answer to client
-            char ans_to_char_arr[(ans).length()];
-            strcpy(ans_to_char_arr, ans.c_str());
-            int sent_bytes = send(client_sock, ans_to_char_arr, sizeof(ans_to_char_arr), 0);
-            if (sent_bytes < 0) {
-                perror("error sending to client");
-                close(client_sock);
-                close(sock);
-                return 0;
-            }
-        }
+        //create a new thread to a new connected client
+        // the tread identifiers
+        pthread_t pthread_client;
+        // set of thread attributes
+        pthread_attr_t attr;
+        // set the default attributes of the thread
+        pthread_attr_init(&attr);
+        //create the thread
+        cout << "before creating thread in server"<<endl;
+        pthread_create(&pthread_client, &attr, ThreadperClient, (void *) &client_sock);
+        // wait for the thread to exit;
+        cout << "after creating thread in server"<<endl;
+        pthread_join(pthread_client, NULL);
+        workers.push_back(pthread_client);
+        close(sock);
     }
+
+//            //split the user input into 3 relevant inputs - vector, function name and number k.
+//            string str_vec;
+//            string distance_metric_name;
+//            string str_k;
+//            splitUserInput(dataFromClient, str_vec, distance_metric_name, str_k);
+//            char invalidInputMessage[] = "Invalid input";
+//            // convert string to vector and check if valid
+//            vector<double> sampleVector;
+//            if(!testSampleValidation(str_vec, sampleVector, vecSize)){
+                // send "Invalid input" to client
 }
