@@ -128,6 +128,7 @@ void splitUserInput(string input_from_user, string& vec, string& function, strin
     }
 }
 
+// TODO did i used this?
 void splitAlgorithmSettings(string input, string& function, string& k){
     bool flag = 1;
     for (int i = 0; i < input.length(); i++){

@@ -13,7 +13,7 @@ using namespace std;
 class Command {
 public:
     string description;
-    DefaultIO dio;
+    DefaultIO* dio;
     void execute(){};
     Data* data;
 };

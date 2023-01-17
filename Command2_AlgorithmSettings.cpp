@@ -1,17 +1,17 @@
 #include "Command2_AlgorithmSettings.h"
 
-Command2_AlgorithmSettings::Command2_AlgorithmSettings(DefaultIO dio, Data* data){
+Command2_AlgorithmSettings::Command2_AlgorithmSettings(DefaultIO* dio, Data* data){
     this->dio = dio;
     this->data = data;
-    this->description = "2. algorithm settings";
+    this->description = "2. algorithm settings\n";
 }
 
 void Command2_AlgorithmSettings::execute(){
     string currSettings = "The current KNN parameters are: K = " + to_string(this->data->k) + ", distance metric = " + this->data->distance_metric_name;
-    dio.write(currSettings);
-    string user_input = dio.read();
+    dio->write(currSettings);
+    string user_input = dio->read();
     //TODO check if user entered enter or not
-    if(user_input != ""){
+    if(user_input != "enter"){
         string distance_metric_name = "";
         string str_k = "";
         int k;
@@ -35,8 +35,7 @@ void Command2_AlgorithmSettings::execute(){
         }
 
         //write error message otherwise
-        //TODO how can client recv this and the menu?
-        dio.write(message);
+        dio->write(message);
         return;
     }
 }

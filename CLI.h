@@ -7,15 +7,20 @@
 
 #include "DefaultIO.h"
 #include "Command.h"
-#include <unordered_map>
+#include <map>
+#include "Command2_AlgorithmSettings.h"
+#include "Command1_UploadData.h"
+#include "Data.h"
+#include <algorithm>
 
 class CLI {
 private:
-    DefaultIO dio;
-    unordered_map<string, Command> commands;
+    DefaultIO* dio;
+    Data data;
+    map<string, Command> commands;
 
 public:
-    CLI(DefaultIO dio);
+    CLI(DefaultIO* dio);
     void start();
 };
 

@@ -9,10 +9,12 @@
 #include "DefaultIO.h"
 #include "Command.h"
 #include <fstream>
+#include "input_validation.h"
+#include <vector>
 
 class Command1_UploadData : public Command {
 public:
-    Command1_UploadData(string description , DefaultIO dio);
+    Command1_UploadData(DefaultIO* dio, Data* data);
     void execute();
 
 };

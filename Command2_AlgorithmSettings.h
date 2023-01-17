@@ -7,9 +7,9 @@
 #include "input_validation.h"
 #include "Command.h"
 
-class Command2_AlgorithmSettings : Command{
+class Command2_AlgorithmSettings : public Command{
 public:
-    Command2_AlgorithmSettings(DefaultIO dio, Data* data);
+    Command2_AlgorithmSettings(DefaultIO* dio, Data* data);
     void execute();
 };
 
