@@ -19,6 +19,7 @@ private:
     Data data;
     map<string, Command> commands;
 
+
 public:
     CLI(DefaultIO* dio);
     void start();

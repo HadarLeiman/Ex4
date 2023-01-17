@@ -9,7 +9,7 @@ Command1_UploadData::Command1_UploadData(DefaultIO* dio, Data* data) {
     this->dio = dio;
     this->data = data;
     this->description = "1. upload an unclassified csv data file\n";
-}
+
 
 void Command1_UploadData::execute(){
     dio->write("Please upload your local train CSV file.");

@@ -32,5 +32,6 @@ void CLI::start(){
         else{
             this->dio->write("Invalid input for choosing from menu");
         }
+
     }
 }

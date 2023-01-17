@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include "DefaultIO.h"
+#include "SocketIO.h"
 #include "Data.h"
 using namespace std;
 
