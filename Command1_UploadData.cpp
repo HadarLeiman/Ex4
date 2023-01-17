@@ -1,14 +1,15 @@
 //
 // Created by USER on 15/01/2023.
 //
+
 #include "Command1_UploadData.h"
 
 //this is the first command class
-Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data *data) {
-    this->description = "upload an unclassified csv data file";
+Command1_UploadData::Command1_UploadData(DefaultIO* dio, Data* data) {
     this->dio = dio;
-    this->data;
-}
+    this->data = data;
+    this->description = "1. upload an unclassified csv data file\n";
+
 
 void Command1_UploadData::execute(){
     dio->write("Please upload your local train CSV file.");
@@ -32,6 +33,7 @@ void Command1_UploadData::execute(){
     else{
         dio->write("Upload complete.");
     }
+
     dio->write("Please upload your local test CSV file.");
     //get the testing data file as a string from the client sock
     string test_data = dio->read();
@@ -41,6 +43,7 @@ void Command1_UploadData::execute(){
     // Close the file
     testFile.close();
 
+    //todo fix validation
     vector<string> testing_data;
     vector<vector<double>> testing;
     vector<string> test_labels;
