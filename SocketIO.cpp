@@ -9,6 +9,7 @@ SocketIO::SocketIO(int client_sock){
 }
 
 string SocketIO::read(){
+    // receive
     char dataFromClient[4096];
     bzero(dataFromClient, 4096);
     int expected_data_len = sizeof(dataFromClient);
@@ -31,7 +32,8 @@ string SocketIO::read(){
     }
 }
 
-void SocketIO::write(string str){
+void SocketIO::write(string str) {
+    // send
     char str_to_char_arr[(str).length()];
     strcpy(str_to_char_arr, str.c_str());
     int sent_bytes = send(this->client_sock, str_to_char_arr, sizeof(str_to_char_arr), 0);

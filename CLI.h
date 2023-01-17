@@ -11,11 +11,11 @@
 
 class CLI {
 private:
-    DefaultIO dio;
+    DefaultIO* dio;
     unordered_map<string, Command> commands;
 
 public:
-    CLI(DefaultIO dio);
+    CLI(DefaultIO* dio);
     void start();
 };
 

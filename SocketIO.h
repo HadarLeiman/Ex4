@@ -10,9 +10,9 @@
 #include <string.h>
 #include <unistd.h>
 
-class SocketIO : DefaultIO{
+class SocketIO : public DefaultIO{
     int client_sock;
-
+public:
     SocketIO(int client_sock);
     string read();
     void write(string str);
