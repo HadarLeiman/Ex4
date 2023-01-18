@@ -130,17 +130,15 @@ void splitUserInput(string input_from_user, string& vec, string& function, strin
 
 // TODO did i used this?
 void splitAlgorithmSettings(string input, string& function, string& k){
-    bool flag = 1;
-    for (int i = 0; i < input.length(); i++){
-        if(input[i]=' '){
-            flag=0;
-        }
-        else if(flag){
-            k += input[i];
-        }
-        else if(!flag){
-            function+=input[i];
-        }
+    int i = 0;
+    while(input[i] != ' ' && i < input.length()){
+        k += input[i];
+        i++;
+    }
+    i++;
+    while(i < input.length()){
+        function += input[i];
+        i++;
     }
 }
 

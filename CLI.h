@@ -15,15 +15,18 @@
 #include "Data.h"
 #include <algorithm>
 
-class CLI{
+class CLI {
 private:
     DefaultIO* dio;
     Data data;
     map<string, Command*> commands;
 
+
 public:
     CLI(DefaultIO* dio);
     void start();
+    //TODO add destructor and delete command
+    ~CLI();
 };
 
 

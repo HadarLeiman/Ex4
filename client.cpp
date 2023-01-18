@@ -47,7 +47,6 @@ void *receiveThread(void* s) {
         // receive
         int read_bytes = recv(*sock, buffer, expected_data_len, 0);
         i++;
-        cout<< "receive number:"<<i<<endl;
         if (read_bytes == 0) {
             // connection is closed
             close(*sock);
@@ -57,10 +56,8 @@ void *receiveThread(void* s) {
             close(*sock);
             return 0;
         }
-        cout << "before buffer cout " << i <<endl;
         // print to user
-        cout << buffer;
-        cout << endl << "after buffer cout" << i << endl;
+        cout << buffer << flush;
     }
 }
 
@@ -68,30 +65,30 @@ void *sendThread(void* s) {
     cout<< "this is the client send thread function"<<endl;
     int* sock = (int*)s;
     while(true) {
-    // create a buffer to send user input to the server
+        // create a buffer to send user input to the server
         char data_addr[4096];
         // clean the buffer
         bzero(data_addr, 4096);
         // get user input
         string userInput = "";
-        cin >> userInput;
+        getline(cin, userInput);
 
 
-            // send user choice to server
-            strcpy(data_addr, userInput.c_str());
-            int data_len = strlen(data_addr);
-            int sent_bytes = send(*sock, data_addr, data_len, 0);
-            if (sent_bytes < 0) {
-                //error
-                cout << "Error sending data to server" << endl;
-                close(*sock);
-                return 0;
-            }
+        // send user choice to server
+        strcpy(data_addr, userInput.c_str());
+        int data_len = strlen(data_addr);
+        int sent_bytes = send(*sock, data_addr, data_len, 0);
+        if (sent_bytes < 0) {
+            //error
+            cout << "Error sending data to server" << endl;
+            close(*sock);
+            return 0;
+        }
         // if command number 1 - check for file path
         if (userInput == "1") {
             // get user file path
             string path = "";
-            cin >> path;
+            getline(cin, path);
             // save the file into a new string to pass to the buffer later
             string data = "";
             readFileToString(path, data);
@@ -105,7 +102,12 @@ void *sendThread(void* s) {
                 close(*sock);
                 return 0;
             }
-          }
+        }
+        else if (userInput == "8") {
+            // exit
+            close(*sock);
+            return 0;
+        }
 //        else {
 //            strcpy(data_addr, userInput.c_str());
 //        }
@@ -163,20 +165,20 @@ int main(int argc, char** argv) {
         return 0;
     }
     cout << "after connecting to server sock"<<endl;
-    while(true) {
-        // the tread identifiers
-        pthread_t pthread_receive;
-        pthread_t pthread_send;
-        // set of thread attributes
-        pthread_attr_t attr;
-        // set the default attributes of the thread
-        pthread_attr_init(&attr);
-        //create the threads
-        pthread_create(&pthread_receive, &attr, receiveThread, (void *)&sock);
-        pthread_create(&pthread_send, &attr, sendThread, (void *)&sock);
-        // wait for the threads to exit;
-        pthread_join(pthread_receive, NULL);
-        pthread_join(pthread_send, NULL);
+    // the tread identifiers
+    pthread_t pthread_receive;
+    pthread_t pthread_send;
+    // set of thread attributes
+    pthread_attr_t attr;
+    // set the default attributes of the thread
+    pthread_attr_init(&attr);
+    //create the threads
+    pthread_create(&pthread_receive, &attr, receiveThread, (void *)&sock);
+    pthread_create(&pthread_send, &attr, sendThread, (void *)&sock);
+    // wait for the threads to exit;
+    pthread_join(pthread_receive, NULL);
+    pthread_join(pthread_send, NULL);
     close(sock);
-    }
+    return 0;
+
 }

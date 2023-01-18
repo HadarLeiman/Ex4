@@ -6,9 +6,6 @@
 
 //this is the first command class
 Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data* data) {
-    cout<<"this is command 1 constructor"<<endl;
-    cout<< "dio"<<endl;
-    cout<<dio<<endl;
     this->dio = dio;
     this->data = data;
     this->description = "1. upload an unclassified csv data file\n";
