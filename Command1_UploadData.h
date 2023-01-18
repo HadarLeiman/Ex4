@@ -19,7 +19,6 @@ class Command1_UploadData : public Command {
 public:
     Command1_UploadData(DefaultIO *dio, Data *data);
     void execute();
-
 };
 
 #endif //EX4_COMMAND1_UPLOADDATA_H

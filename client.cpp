@@ -18,10 +18,27 @@ using namespace std;
 #include <fstream>
 #include <sstream>
 #include <pthread.h>
+void readFileToString(string path, string &outputData) {
+    ifstream file(path);
+    if (file) {
+        string line = "";
+        while (getline(file, line)) {
+            outputData += line;
+            outputData += "\n";
+        }
+        file.close();
+    }
+    // problem reading file
+    if(outputData.size() == 0) {
+        cout << "invalid input";
+    }
+}
 
 
 void *receiveThread(void* s) {
+    cout<<"this is the client receive thread function"<<endl;
     int *sock = (int*)s;
+    int i =0;
     while(true) {
         // receive info from server
         char buffer[4096];
@@ -29,6 +46,10 @@ void *receiveThread(void* s) {
         int expected_data_len = sizeof(buffer);
         // receive
         int read_bytes = recv(*sock, buffer, expected_data_len, 0);
+        cout<< "read_bytes"<<endl;
+        cout<< read_bytes<<endl;
+        i++;
+        cout<< "receive number:"<<i<<endl;
         if (read_bytes == 0) {
             // connection is closed
             close(*sock);
@@ -38,47 +59,49 @@ void *receiveThread(void* s) {
             close(*sock);
             return 0;
         }
+        cout << "before buffer cout" <<endl;
+        cout << i <<endl;
         // print to user
-        cout << buffer << endl;
+        cout << buffer;
     }
 }
 
 void *sendThread(void* s) {
+    cout<< "this is the client send thread function"<<endl;
     int* sock = (int*)s;
     while(true) {
-    // send user input to the server
+    // create a buffer to send user input to the server
         char data_addr[4096];
+        // clean the buffer
         bzero(data_addr, 4096);
         // get user input
         string userInput = "";
         cin >> userInput;
 
-        // check for file path - command number 1
-        string endOfuserInput = (userInput.substr(userInput.size()-3));
-        if(endOfuserInput == "csv") {
-            // get user input
+        // if command number 1 - check for file path
+        if (userInput == "1") {
+            // send user choice to server
+            strcpy(data_addr, userInput.c_str());
+            int data_len = strlen(data_addr);
+            int sent_bytes = send(*sock, data_addr, data_len, 0);
+            if (sent_bytes < 0) {
+                //error
+                cout << "Error sending data to server" << endl;
+                close(*sock);
+                return 0;
+            }
+            // get user file path
             string path = "";
             cin >> path;
-            string data;
-            ifstream file(path);
-            if (file) {
-                string line = "";
-                while (getline(file, line)) {
-                    data += line;
-                    data += "\n";
-                }
-                file.close();
-            }
-            // problem reading file
-            if(data.size() == 0) {
-                cout << "invalid input";
-                continue;
-            }
+            // save the file into a new string to pass to the buffer later
+            string data = "";
+            readFileToString(path, data);
+            // copy the file info into the buffer data_addr
             strcpy(data_addr, data.c_str());
+            continue;
         } else {
             strcpy(data_addr, userInput.c_str());
         }
-
         // send info to server
         int data_len = strlen(data_addr);
         int sent_bytes = send(*sock, data_addr, data_len, 0);
@@ -92,7 +115,7 @@ void *sendThread(void* s) {
 }
 //this is the main client program
 int main(int argc, char** argv) {
-    cout << "this is the client program";
+    cout << "this is the client program"<<endl;
     // check if number of argument is valid
     if (argc != 3) {
         cout << "Expected 2 arguments but " << argc - 1 << " were given" << endl;
@@ -112,7 +135,7 @@ int main(int argc, char** argv) {
         cout << "invalid ip number" << endl;
         return 0;
     }
-    cout << "before connecting to server sock";
+    cout << "before connecting to server sock"<< endl;
     // socket initialization
     const char *ip_address = ip;
     const int port_no = clientPort;
@@ -132,7 +155,7 @@ int main(int argc, char** argv) {
         perror("error connecting to server");
         return 0;
     }
-    cout << "after connecting to server sock";
+    cout << "after connecting to server sock"<<endl;
     while(true) {
         // the tread identifiers
         pthread_t pthread_receive;

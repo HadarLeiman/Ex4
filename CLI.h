@@ -10,15 +10,16 @@
 #include <map>
 #include "Command2_AlgorithmSettings.h"
 #include "Command1_UploadData.h"
+#include "Command3_ClassifyData.h"
+#include "Command4_DisplayResults.h"
 #include "Data.h"
 #include <algorithm>
 
-class CLI {
+class CLI{
 private:
     DefaultIO* dio;
     Data data;
-    map<string, Command> commands;
-
+    map<string, Command*> commands;
 
 public:
     CLI(DefaultIO* dio);

@@ -15,6 +15,9 @@ BUILD_FILES += input_validation.o
 BUILD_FILES += KNeighborsClassifier.o
 BUILD_FILES += SocketIO.o
 BUILD_FILES += Command1_UploadData.o
+BUILD_FILES += Command2_AlgorithmSettings.o
+BUILD_FILES += Command3_ClassifyData.o
+BUILD_FILES += Command4_DisplayResults.o
 BUILD_FILES += CLI.o
 BUILD_FILES += StandardIO.o
 

@@ -7,6 +7,7 @@ Command2_AlgorithmSettings::Command2_AlgorithmSettings(DefaultIO* dio, Data* dat
 }
 
 void Command2_AlgorithmSettings::execute(){
+    cout << "this is command 2"<<endl;
     string currSettings = "The current KNN parameters are: K = " + to_string(this->data->k) + ", distance metric = " + this->data->distance_metric_name;
     dio->write(currSettings);
     string user_input = dio->read();

@@ -20,14 +20,16 @@ string SocketIO::read(){
     if (read_bytes == 0) {
         perror("connection is closed");
         close(client_sock);
+        return "error1";
     }
     // error receiving from client
     else if (read_bytes < 0) {
         perror("error receiving from client");
         close(client_sock);
+        return "error2";
     }
     // return the data the client sent
-    else{
+    else {
         return dataFromClient;
     }
 }
@@ -36,6 +38,8 @@ void SocketIO::write(string str) {
     // send
     char str_to_char_arr[(str).length()];
     strcpy(str_to_char_arr, str.c_str());
+    cout<<"**********";
+    cout <<str_to_char_arr<<endl;
     int sent_bytes = send(this->client_sock, str_to_char_arr, sizeof(str_to_char_arr), 0);
     if (sent_bytes < 0) {
         perror("error sending to client");

@@ -5,13 +5,17 @@
 #include "Command1_UploadData.h"
 
 //this is the first command class
-Command1_UploadData::Command1_UploadData(DefaultIO* dio, Data* data) {
+Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data* data) {
+    cout<<"this is command 1 constructor"<<endl;
+    cout<< "dio"<<endl;
+    cout<<dio<<endl;
     this->dio = dio;
     this->data = data;
     this->description = "1. upload an unclassified csv data file\n";
+}
 
-
-void Command1_UploadData::execute(){
+void Command1_UploadData::execute() {
+    cout << "this is command 1"<<endl;
     dio->write("Please upload your local train CSV file.");
     //get the training data file as a string from the client sock
     string train_data = dio->read();
