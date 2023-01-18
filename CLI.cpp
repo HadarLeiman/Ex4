@@ -32,26 +32,18 @@ void CLI::start(){
     vector<string> v{"1", "2", "3", "4"};
     //loop the commands and create a menu string
     for(int i=0; i<4; i++){
-        cout<<"**********"<<endl;
-        cout<<v[i];
         menu += this->commands[v[i]]->description;
-        cout<<menu<<endl;
     }
 
     string command_num = "";
     //TODO check if connection is close
     while(command_num != "8") {
-        cout << "in while loop"<<endl;
         this->dio->write(menu);
         command_num = this->dio->read();
         //check if command_num is legal
         if (count(v.begin(), v.end(), command_num)) {
             //TODO delete prints
-            cout << "go to command 1"<<endl;
-            cout<< command_num<<endl;
-            cout<<this->commands[command_num]->description<<endl;
             this->commands[command_num]->execute();
-            cout<<"after this->commands"<<endl;
         }
         else{
             this->dio->write("Invalid input for choosing from menu");

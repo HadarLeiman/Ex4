@@ -19,6 +19,7 @@ void Command1_UploadData::execute() {
     dio->write("Please upload your local train CSV file.");
     //get the training data file as a string from the client sock
     string train_data = dio->read();
+    cout << "train_data: " << train_data << endl;
     ofstream trainFile("train_data.csv");
     // Send data to the stream
     trainFile << train_data;
@@ -41,9 +42,10 @@ void Command1_UploadData::execute() {
     dio->write("Please upload your local test CSV file.");
     //get the testing data file as a string from the client sock
     string test_data = dio->read();
+    cout << "test_data: " << test_data << endl;
     ofstream testFile("test_data.csv");
     // Send data to the stream
-    testFile << train_data;
+    testFile << test_data;
     // Close the file
     testFile.close();
 

@@ -46,8 +46,6 @@ void *receiveThread(void* s) {
         int expected_data_len = sizeof(buffer);
         // receive
         int read_bytes = recv(*sock, buffer, expected_data_len, 0);
-        cout<< "read_bytes"<<endl;
-        cout<< read_bytes<<endl;
         i++;
         cout<< "receive number:"<<i<<endl;
         if (read_bytes == 0) {
@@ -59,10 +57,10 @@ void *receiveThread(void* s) {
             close(*sock);
             return 0;
         }
-        cout << "before buffer cout" <<endl;
-        cout << i <<endl;
+        cout << "before buffer cout " << i <<endl;
         // print to user
         cout << buffer;
+        cout << endl << "after buffer cout" << i << endl;
     }
 }
 
@@ -78,8 +76,7 @@ void *sendThread(void* s) {
         string userInput = "";
         cin >> userInput;
 
-        // if command number 1 - check for file path
-        if (userInput == "1") {
+
             // send user choice to server
             strcpy(data_addr, userInput.c_str());
             int data_len = strlen(data_addr);
@@ -90,6 +87,8 @@ void *sendThread(void* s) {
                 close(*sock);
                 return 0;
             }
+        // if command number 1 - check for file path
+        if (userInput == "1") {
             // get user file path
             string path = "";
             cin >> path;
@@ -98,19 +97,27 @@ void *sendThread(void* s) {
             readFileToString(path, data);
             // copy the file info into the buffer data_addr
             strcpy(data_addr, data.c_str());
-            continue;
-        } else {
-            strcpy(data_addr, userInput.c_str());
-        }
-        // send info to server
-        int data_len = strlen(data_addr);
-        int sent_bytes = send(*sock, data_addr, data_len, 0);
-        if (sent_bytes < 0) {
-            //error
-            cout << "Error sending data to server" << endl;
-            close(*sock);
-            return 0;
-        }
+            int data_len = strlen(data_addr);
+            int sent_bytes = send(*sock, data_addr, data_len, 0);
+            if (sent_bytes < 0) {
+                //error
+                cout << "Error sending data to server" << endl;
+                close(*sock);
+                return 0;
+            }
+          }
+//        else {
+//            strcpy(data_addr, userInput.c_str());
+//        }
+//        // send info to server
+//        int data_len = strlen(data_addr);
+//        int sent_bytes = send(*sock, data_addr, data_len, 0);
+//        if (sent_bytes < 0) {
+//            //error
+//            cout << "Error sending data to server" << endl;
+//            close(*sock);
+//            return 0;
+//        }
     }
 }
 //this is the main client program
