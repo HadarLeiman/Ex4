@@ -38,29 +38,35 @@ void readFileToString(string path, string &outputData) {
 void *receiveThread(void* s) {
     cout<<"this is the client receive thread function"<<endl;
     int *sock = (int*)s;
-    int i =0;
     while(true) {
         // receive info from server
         char buffer[4096];
         bzero(buffer, 4096);
         int expected_data_len = sizeof(buffer);
-        // receive
-        int read_bytes = recv(*sock, buffer, expected_data_len, 0);
-        i++;
-        cout<< "receive number:"<<i<<endl;
-        if (read_bytes == 0) {
-            // connection is closed
-            close(*sock);
-            return 0;
-        } else if (read_bytes < 0) {
-            cout << "Error receiving data from server";
-            close(*sock);
-            return 0;
+        string data ="";
+        while(true){
+            // receive
+            int read_bytes = recv(*sock, buffer, expected_data_len, 0);
+            if (read_bytes == 0) {
+                // connection is closed
+                close(*sock);
+                return 0;
+            } else if (read_bytes < 0) {
+                cout << "Error receiving data from server";
+                close(*sock);
+                return 0;
+                // TODO
+            } else if (read_bytes < sizeof(buffer)){
+                cout << "input is small"<<endl;
+                data += buffer;
+                break;
+            } else {
+                data += buffer;
+            }
         }
-        cout << "before buffer cout " << i <<endl;
+        cout << "before buffer cout "<<endl;
         // print to user
-        cout << buffer;
-        cout << endl << "after buffer cout" << i << endl;
+        cout << data << flush;
     }
 }
 
@@ -74,50 +80,84 @@ void *sendThread(void* s) {
         bzero(data_addr, 4096);
         // get user input
         string userInput = "";
-        cin >> userInput;
-
-
-            // send user choice to server
-            strcpy(data_addr, userInput.c_str());
-            int data_len = strlen(data_addr);
-            int sent_bytes = send(*sock, data_addr, data_len, 0);
-            if (sent_bytes < 0) {
-                //error
-                cout << "Error sending data to server" << endl;
-                close(*sock);
-                return 0;
-            }
+        getline(cin, userInput);
+        strcpy(data_addr, userInput.c_str());
+        int data_len = strlen(data_addr);
+        // send user choice to server
+        int sent_bytes = send(*sock, data_addr, data_len, 0);
+        if (sent_bytes < 0) {
+            //error
+            cout << "Error sending data to server" << endl;
+            close(*sock);
+            return 0;
+        }
         // if command number 1 - check for file path
         if (userInput == "1") {
             // get user file path
-            string path = "";
-            cin >> path;
+            string train_path = "";
+            getline(cin, train_path);
             // save the file into a new string to pass to the buffer later
-            string data = "";
-            readFileToString(path, data);
+            string train_data = "";
+            readFileToString(train_path, train_data);
             // copy the file info into the buffer data_addr
-            strcpy(data_addr, data.c_str());
-            int data_len = strlen(data_addr);
-            int sent_bytes = send(*sock, data_addr, data_len, 0);
-            if (sent_bytes < 0) {
-                //error
-                cout << "Error sending data to server" << endl;
-                close(*sock);
-                return 0;
+
+            int init_index = 0;
+            // send file content in a loop
+            while(true) {
+                bzero(data_addr, 4096);
+                // substring to send
+                string part_of_file_to_send =  train_data.substr(init_index,4095);
+                strcpy(data_addr, part_of_file_to_send.c_str());
+                int data_len = strlen(data_addr);
+                //send
+                int sent_bytes = send(*sock, data_addr, data_len, 0);
+                cout<<"the part that was sent is:"<<endl;
+                cout<<data_addr<<endl;
+                if (sent_bytes < 0) {
+                    //error
+                    cout << "Error sending data to server" << endl;
+                    close(*sock);
+                    return 0;
+                }
+                // update substring start position
+                init_index += 4095;
+                //TODO better
+                if (part_of_file_to_send.length() < 4095) {
+                    // done sending file content
+                    break;
+                }
             }
-          }
-//        else {
-//            strcpy(data_addr, userInput.c_str());
-//        }
-//        // send info to server
-//        int data_len = strlen(data_addr);
-//        int sent_bytes = send(*sock, data_addr, data_len, 0);
-//        if (sent_bytes < 0) {
-//            //error
-//            cout << "Error sending data to server" << endl;
-//            close(*sock);
-//            return 0;
-//        }
+
+            cout<< "getting test input part in send thread"<<endl;
+            // get user test file path
+            string test_path = "";
+            getline(cin, test_path);
+            // save the file into a new string to pass to the buffer later
+            string test_data = "";
+            readFileToString(test_path, test_data);
+            init_index = 0;
+            while(true) {
+                bzero(data_addr, 4096);
+                // substring to send
+                string part_of_file_to_send =  test_data.substr(init_index, 4095);
+                strcpy(data_addr, part_of_file_to_send.c_str());
+                int data_len = strlen(data_addr);
+                //send
+                int sent_bytes = send(*sock, data_addr, data_len, 0);
+                if (sent_bytes < 0) {
+                    //error
+                    cout << "Error sending data to server" << endl;
+                    close(*sock);
+                    return 0;
+                }
+                // update substring start position
+                init_index += 4095;
+                if (part_of_file_to_send.length() < 4095) {
+                    // done sending file content
+                    break;
+                }
+            }
+        }
     }
 }
 //this is the main client program
@@ -142,7 +182,6 @@ int main(int argc, char** argv) {
         cout << "invalid ip number" << endl;
         return 0;
     }
-    cout << "before connecting to server sock"<< endl;
     // socket initialization
     const char *ip_address = ip;
     const int port_no = clientPort;
@@ -162,7 +201,6 @@ int main(int argc, char** argv) {
         perror("error connecting to server");
         return 0;
     }
-    cout << "after connecting to server sock"<<endl;
     while(true) {
         // the tread identifiers
         pthread_t pthread_receive;

@@ -34,6 +34,34 @@ bool vectorValidation(string s, vector<double>& v, char separator) {
     }
     return true;
 }
+bool unclassifiedFileValidation(){
+    vector<vector<double>> testing;
+
+    ifstream file("test_data.csv");
+    vector<string> testing_data;
+    if (file) {
+        string line = "";
+
+        while (getline(file, line)) {
+            string string_vec;
+            string_vec = line;
+
+            vector<double> line_vec;
+            // getting vector size
+            string vec_without_spaces = string_vec;
+            vec_without_spaces.erase(remove(vec_without_spaces.begin(),
+                                            vec_without_spaces.end(), ' '), vec_without_spaces.end());
+            int sample_vec_size = (string_vec).length()- vec_without_spaces.length()+1;
+            if (testSampleValidation(string_vec, line_vec, sample_vec_size)) {
+            testing_data.push_back(string_vec);
+            } else {
+                return false;
+            }
+        }
+        file.close();
+    }
+    return true;
+}
 
 bool testSampleValidation(string s, vector<double> &v, int &vecSize) {
     char separator = ' ';

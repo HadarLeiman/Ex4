@@ -8,19 +8,6 @@ CLI::CLI(DefaultIO* dio){
     this->data = Data();
     //TODO add the commands to map
     //TODO is &(this->data) ok?
-//    Command1_UploadData command1(this->dio, &(this->data));
-//    Command2_AlgorithmSettings command2(this->dio, &(this->data));
-//    Command3_ClassifyData command3(this->dio, &(this->data));
-//    Command4_DisplayResults command4(this->dio, &(this->data));
-//
-//    this->commands.insert({"1", (Command*)&command1});
-//    this->commands.insert({"2", (Command*)&command2});
-//    this->commands.insert({"3", (Command*)&command3});
-//    this->commands.insert({"4", (Command*)&command4});
-//    cout << "in the CLI constructor"<<endl;
-//    cout << (Command*)&command1<<endl;
-//    cout << (this->commands["0"])<<endl;
-//    cout << "#############"<<endl;
     this->commands.insert({"1", new Command1_UploadData(this->dio, &(this->data))});
     this->commands.insert({"2", new Command2_AlgorithmSettings(this->dio, &(this->data))});
     this->commands.insert({"3", new Command3_ClassifyData(this->dio, &(this->data))});
