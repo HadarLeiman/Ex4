@@ -15,7 +15,7 @@ string SocketIO::read(){
     int expected_data_len = sizeof(dataFromClient);
     int read_bytes = recv(this->client_sock, dataFromClient, expected_data_len, 0);
     //TODO what to do in the first and the second case?
-
+    cout << "read bytes: " << read_bytes << endl;
     // connection is closed
     if (read_bytes == 0) {
         perror("connection is closed");

@@ -72,7 +72,9 @@ void *sendThread(void* s) {
         // get user input
         string userInput = "";
         getline(cin, userInput);
-
+        if(userInput == ""){
+            userInput = "enter";
+        }
 
         // send user choice to server
         strcpy(data_addr, userInput.c_str());
@@ -108,18 +110,6 @@ void *sendThread(void* s) {
             close(*sock);
             return 0;
         }
-//        else {
-//            strcpy(data_addr, userInput.c_str());
-//        }
-//        // send info to server
-//        int data_len = strlen(data_addr);
-//        int sent_bytes = send(*sock, data_addr, data_len, 0);
-//        if (sent_bytes < 0) {
-//            //error
-//            cout << "Error sending data to server" << endl;
-//            close(*sock);
-//            return 0;
-//        }
     }
 }
 //this is the main client program

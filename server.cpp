@@ -59,13 +59,14 @@ int main(int argc, char** argv){
     // create thread array
     pthread_t workingThreads[10];
     int i =0;
-    while(true) {
         // Start listening
         if (listen(sock,0)<0){
             perror("error listening to a socket");
             close(sock);
             return 0;
         }
+        // TODO while here or up?
+    while(true) {
         // accept client
         struct sockaddr_in client_sin;
         unsigned int addr_len = sizeof(client_sin);
