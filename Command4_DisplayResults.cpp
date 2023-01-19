@@ -11,6 +11,7 @@ Command4_DisplayResults::Command4_DisplayResults(DefaultIO* dio, Data* data){
 }
 
 void Command4_DisplayResults::execute(){
+    cout << "this is command 4"<<endl;
     //check if data was uploaded
     if(this->data->classified.size()==0 || this->data->unclassified.size()==0){
         this->dio->write("please upload data\n");

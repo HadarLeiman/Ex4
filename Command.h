@@ -13,9 +13,10 @@ using namespace std;
 
 class Command {
 public:
+    virtual ~Command(){}
     string description;
     DefaultIO* dio;
-    void execute(){};
+    virtual void execute()=0;
     Data* data;
 };
 

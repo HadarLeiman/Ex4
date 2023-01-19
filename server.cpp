@@ -19,11 +19,13 @@ void *ThreadperClient(void* c) {
     CLI cli = CLI(dio);
     cli.start();
     //TODO delete
-//    delete dio;
+    delete dio;
+    close(*client_sock);
 }
 
+// this is the main server program
 int main(int argc, char** argv){
-    cout<<"this is the server program";
+    cout<<"this is the server program"<<endl;
     // check if number of argument is valid
     if (argc != 2) {
         cout << "Expected 1 arguments but " << argc-1 << " were given" <<  endl;
@@ -55,16 +57,13 @@ int main(int argc, char** argv){
         close(sock);
         return 0;
 	}
-
-    // Start listening
-	if (listen(sock,0)<0){
-		perror("error listening to a socket");
-        close(sock);
-        return 0;
-    }
-    // create thread array
-    vector<pthread_t> workers;
     while(true) {
+        // Start listening
+        if (listen(sock,0)<0){
+            perror("error listening to a socket");
+            close(sock);
+            return 0;
+        }
         // accept client
         struct sockaddr_in client_sin;
         unsigned int addr_len = sizeof(client_sin);
@@ -87,18 +86,6 @@ int main(int argc, char** argv){
         // wait for the thread to exit;
         cout << "after creating thread in server"<<endl;
         pthread_join(pthread_client, NULL);
-        workers.push_back(pthread_client);
         close(sock);
     }
-
-//            //split the user input into 3 relevant inputs - vector, function name and number k.
-//            string str_vec;
-//            string distance_metric_name;
-//            string str_k;
-//            splitUserInput(dataFromClient, str_vec, distance_metric_name, str_k);
-//            char invalidInputMessage[] = "Invalid input";
-//            // convert string to vector and check if valid
-//            vector<double> sampleVector;
-//            if(!testSampleValidation(str_vec, sampleVector, vecSize)){
-                // send "Invalid input" to client
 }

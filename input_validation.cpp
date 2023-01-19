@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cmath>
 #include "DataProcessor.h"
+#include "input_validation.h"
 using namespace std;
 
 bool vectorValidation(string s, vector<double>& v, char separator) {
@@ -31,6 +32,29 @@ bool vectorValidation(string s, vector<double>& v, char separator) {
                 return false;
             }
         }
+    }
+    return true;
+}
+bool unclassifiedFileValidation(int vecSize){
+    vector<vector<double>> testing;
+
+    ifstream file("test_data.csv");
+    vector<string> testing_data;
+    if (file) {
+        string line = "";
+
+        while (getline(file, line)) {
+            string string_vec;
+            string_vec = line;
+
+            vector<double> line_vec;
+            if (testSampleValidation(string_vec, line_vec, vecSize)) {
+            testing_data.push_back(string_vec);
+            } else {
+                return false;
+            }
+        }
+        file.close();
     }
     return true;
 }

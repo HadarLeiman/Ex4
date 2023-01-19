@@ -5,16 +5,18 @@
 #include "Command1_UploadData.h"
 
 //this is the first command class
-Command1_UploadData::Command1_UploadData(DefaultIO* dio, Data* data) {
+Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data* data) {
     this->dio = dio;
     this->data = data;
     this->description = "1. upload an unclassified csv data file\n";
+}
 
-
-void Command1_UploadData::execute(){
-    dio->write("Please upload your local train CSV file.");
+void Command1_UploadData::execute() {
+    // train file part
+    dio->write("Please upload your local train CSV file.\n");
     //get the training data file as a string from the client sock
     string train_data = dio->read();
+    // save the train data in a file(server)
     ofstream trainFile("train_data.csv");
     // Send data to the stream
     trainFile << train_data;
@@ -31,29 +33,25 @@ void Command1_UploadData::execute(){
         dio->write("invalid input");
     }
     else{
-        dio->write("Upload complete.");
+        dio->write("Upload complete.\n");
     }
-
-    dio->write("Please upload your local test CSV file.");
-    //get the testing data file as a string from the client sock
+    // test file part
+    dio->write("Please upload your local test CSV file.\n");
+    //get the test_data data file as a string from the client sock
     string test_data = dio->read();
+    //save the tets data in a file(server)
     ofstream testFile("test_data.csv");
     // Send data to the stream
-    testFile << train_data;
+    testFile << test_data;
     // Close the file
     testFile.close();
 
-    //todo fix validation
-    vector<string> testing_data;
-    vector<vector<double>> testing;
-    vector<string> test_labels;
-    int vecSize2 = 0;
-    int numberOfSamples2 = 0;
-    if (!fileReader("test_data.csv", testing_data, train, test_labels, vecSize2, numberOfSamples2)) {
-        //problem reading file
+    //TODO fix test validation
+    if (unclassifiedFileValidation(vecSize)){
+        //file is invalid
         dio->write("invalid input");
     }
     else{
-        dio->write("Upload complete.");
+        dio->write("Upload complete.\n");
     }
 }

@@ -11,6 +11,7 @@ Command3_ClassifyData::Command3_ClassifyData(DefaultIO* dio, Data* data){
 }
 
 void Command3_ClassifyData::execute(){
+    cout << "this is command 3"<<endl;
     //check if data was uploaded
     //TODO can only one file be uploaded?
     if(this->data->classified.size() != 0 && this->data->unclassified.size() != 0){
