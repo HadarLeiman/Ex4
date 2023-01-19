@@ -4,10 +4,10 @@
 
 #include "Command4_DisplayResults.h"
 
-Command4_DisplayResults::Command4_DisplayResults(DefaultIO* dio, Data* data){
+Command4_DisplayResults::Command4_DisplayResults(DefaultIO* dio, Data* data, string d){
     this->dio = dio;
     this->data = data;
-    this->description = "4. display results\n";
+    this->description = d;
 }
 
 void Command4_DisplayResults::execute(){

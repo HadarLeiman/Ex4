@@ -13,6 +13,7 @@ string SocketIO::read(){
     char dataFromClient[4096];
     bzero(dataFromClient, 4096);
     int expected_data_len = sizeof(dataFromClient);
+
     string data ="";
     while(true) {
         bzero(dataFromClient, 4096);

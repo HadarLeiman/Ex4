@@ -48,6 +48,7 @@ void *receiveThread(void* s) {
         //clean buffer
         bzero(buffer, 4096);
         int expected_data_len = sizeof(buffer);
+        
         string data ="";
         // getting the information part by part-if the info is bigger than the buffer size.
         while(true) {
@@ -98,6 +99,9 @@ void *sendThread(void* s) {
         // get user input
         string userInput = "";
         getline(cin, userInput);
+        if(userInput == ""){
+            userInput = "enter";
+        }
         strcpy(data_addr, userInput.c_str());
         int data_len = strlen(data_addr);
         // send user choice to server
@@ -242,5 +246,6 @@ int main(int argc, char** argv) {
         pthread_join(pthread_receive, NULL);
         pthread_join(pthread_send, NULL);
     close(sock);
-    }
+    return 0;
+
 }

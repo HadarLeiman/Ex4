@@ -40,20 +40,20 @@ int main(int argc, char** argv){
     // Create server socket
     int sock = socket(AF_INET, SOCK_STREAM,0);
     // Check If the socket is created
-	if (sock < 0){
-		perror("error creating socket");
+    if (sock < 0){
+        perror("error creating socket");
         return 0;
-	}
+    }
 
     // Address info to bind socket
-	struct sockaddr_in sin;
-	memset(&sin,0, sizeof(sin));
-	sin.sin_family = AF_INET;
-	sin.sin_addr.s_addr = INADDR_ANY;
-	sin.sin_port = htons(server_port);
+    struct sockaddr_in sin;
+    memset(&sin,0, sizeof(sin));
+    sin.sin_family = AF_INET;
+    sin.sin_addr.s_addr = INADDR_ANY;
+    sin.sin_port = htons(server_port);
     // Bind socket
-	if (bind(sock,(struct sockaddr*)&sin, sizeof(sin))<0){
-		perror("error binding socket");
+    if (bind(sock,(struct sockaddr*)&sin, sizeof(sin))<0){
+        perror("error binding socket");
         close(sock);
         return 0;
 	}
@@ -64,6 +64,8 @@ int main(int argc, char** argv){
             close(sock);
             return 0;
         }
+        // TODO while here or up?
+    while(true) {
         // accept client
         struct sockaddr_in client_sin;
         unsigned int addr_len = sizeof(client_sin);
@@ -89,3 +91,4 @@ int main(int argc, char** argv){
         close(sock);
     }
 }
+

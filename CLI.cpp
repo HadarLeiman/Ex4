@@ -12,28 +12,40 @@ CLI::CLI(DefaultIO* dio){
     this->commands.insert({"2", new Command2_AlgorithmSettings(this->dio, &(this->data))});
     this->commands.insert({"3", new Command3_ClassifyData(this->dio, &(this->data))});
     this->commands.insert({"4", new Command4_DisplayResults(this->dio, &(this->data))});
+    //this->commands.insert({"5", new Command4_DisplayResults(this->dio, &(this->data), "5. download results\n")});
+
 }
 void CLI::start(){
-    cout<< "this is the CLI start function"<<endl;
     string menu;
+    cout<< "this is the CLI start function"<<endl;
     vector<string> v{"1", "2", "3", "4"};
     //loop the commands and create a menu string
     for(int i=0; i<4; i++){
         menu += this->commands[v[i]]->description;
     }
+    menu += "8. exit\n";
 
     string command_num = "";
     //TODO check if connection is close
-    while(command_num != "8") {
+    while(true) {
         this->dio->write(menu);
         command_num = this->dio->read();
         //check if command_num is legal
-        if (count(v.begin(), v.end(), command_num)) {
-            //TODO delete prints
+        if (command_num == "8"){
+            break;
+        }
+        else if (count(v.begin(), v.end(), command_num)) {
             this->commands[command_num]->execute();
         }
         else{
-            this->dio->write("Invalid input for choosing from menu");
+            this->dio->write("Invalid input to select from the menu");
         }
+
+    }
+}
+CLI::~CLI(){
+    //TODO delete commands
+    for(auto it = this->commands.begin(); it != this->commands.end(); ++it) {
+        delete it->second;
     }
 }

@@ -8,8 +8,8 @@
 
 class Command4_DisplayResults:public Command{
 public:
-    Command4_DisplayResults(DefaultIO* dio, Data* data);
-    void execute();
+    Command4_DisplayResults(DefaultIO* dio, Data* data, string d ="4. display results\n");
+    void execute() override;
 };
 
 
