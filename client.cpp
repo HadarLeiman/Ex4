@@ -70,10 +70,20 @@ void *receiveThread(void* s) {
                 data += buffer;
             }
         }
-        //TODO delete print
-        cout <<" inside receive thread before printing the buffer to the user"<<endl;
-        // print the whole message content to the user
-        cout << data << flush;
+        string checkForFile = data.substr(0,4);
+        if(checkForFile == "file") {
+            // delete key word from data
+            data = data.substr(4);
+            // save the output to a file
+            ofstream classifiedFile("classifiedData.csv");
+            // Send data to the stream
+            classifiedFile << data;
+            // Close the file
+            classifiedFile.close();
+        } else {
+            // print the whole message content to the user
+            cout << data << flush;
+        }
     }
 }
 
@@ -165,6 +175,9 @@ void *sendThread(void* s) {
         } else if (userInput =="5") {
             // update the global variable for the receive-thread to know.
             downloadFile = true;
+            string path="";
+            getline(cin, path);
+            filePath = path;
             // continue the loop to send local path to download the file to
         }
     }
