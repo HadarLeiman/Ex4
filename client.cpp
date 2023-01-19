@@ -18,6 +18,11 @@ using namespace std;
 #include <fstream>
 #include <sstream>
 #include <pthread.h>
+
+bool downloadFile = false;
+string filePath = "";
+
+//this function receive a file path and read the file content into a string.
 void readFileToString(string path, string &outputData) {
     ifstream file(path);
     if (file) {
@@ -34,17 +39,18 @@ void readFileToString(string path, string &outputData) {
     }
 }
 
-
+// this thread is in charge of receiving messages from the server and printing them to the user.
 void *receiveThread(void* s) {
-    cout<<"this is the client receive thread function"<<endl;
     int *sock = (int*)s;
     while(true) {
         // receive info from server
         char buffer[4096];
+        //clean buffer
         bzero(buffer, 4096);
         int expected_data_len = sizeof(buffer);
         string data ="";
-        while(true){
+        // getting the information part by part-if the info is bigger than the buffer size.
+        while(true) {
             // receive
             int read_bytes = recv(*sock, buffer, expected_data_len, 0);
             if (read_bytes == 0) {
@@ -55,26 +61,27 @@ void *receiveThread(void* s) {
                 cout << "Error receiving data from server";
                 close(*sock);
                 return 0;
-                // TODO
-            } else if (read_bytes < sizeof(buffer)){
-                cout << "input is small"<<endl;
+            } else if (read_bytes < sizeof(buffer)) {
+                //  done receiving the whole message from server.
                 data += buffer;
                 break;
             } else {
+                // saving all parts
                 data += buffer;
             }
         }
-        cout << "before buffer cout "<<endl;
-        // print to user
+        //TODO delete print
+        cout <<" inside receive thread before printing the buffer to the user"<<endl;
+        // print the whole message content to the user
         cout << data << flush;
     }
 }
 
+// this thread is in charge of sending messages to the server.
 void *sendThread(void* s) {
-    cout<< "this is the client send thread function"<<endl;
     int* sock = (int*)s;
     while(true) {
-    // create a buffer to send user input to the server
+        // create a buffer to send user input to the server
         char data_addr[4096];
         // clean the buffer
         bzero(data_addr, 4096);
@@ -93,26 +100,24 @@ void *sendThread(void* s) {
         }
         // if command number 1 - check for file path
         if (userInput == "1") {
-            // get user file path
+            // get user file path for training data
             string train_path = "";
             getline(cin, train_path);
-            // save the file into a new string to pass to the buffer later
+            // save the file content into a string to pass to the buffer
             string train_data = "";
             readFileToString(train_path, train_data);
-            // copy the file info into the buffer data_addr
-
+            // copy the train_data string into the buffer data_addr
             int init_index = 0;
-            // send file content in a loop
+            // send file content part by part in a loop
             while(true) {
+                // clean the buffer
                 bzero(data_addr, 4096);
-                // substring to send
+                // substring to send in the size of the buffer
                 string part_of_file_to_send =  train_data.substr(init_index,4095);
                 strcpy(data_addr, part_of_file_to_send.c_str());
                 int data_len = strlen(data_addr);
                 //send
                 int sent_bytes = send(*sock, data_addr, data_len, 0);
-                cout<<"the part that was sent is:"<<endl;
-                cout<<data_addr<<endl;
                 if (sent_bytes < 0) {
                     //error
                     cout << "Error sending data to server" << endl;
@@ -128,17 +133,17 @@ void *sendThread(void* s) {
                 }
             }
 
-            cout<< "getting test input part in send thread"<<endl;
-            // get user test file path
+            // get user file path for the validation set
             string test_path = "";
             getline(cin, test_path);
-            // save the file into a new string to pass to the buffer later
+            // save the file into a string to pass to the buffer
             string test_data = "";
             readFileToString(test_path, test_data);
             init_index = 0;
+            // send file content part by part in a loop
             while(true) {
                 bzero(data_addr, 4096);
-                // substring to send
+                // substring to send in the size of the buffer
                 string part_of_file_to_send =  test_data.substr(init_index, 4095);
                 strcpy(data_addr, part_of_file_to_send.c_str());
                 int data_len = strlen(data_addr);
@@ -157,11 +162,18 @@ void *sendThread(void* s) {
                     break;
                 }
             }
+        } else if (userInput =="5") {
+            // update the global variable for the receive-thread to know.
+            downloadFile = true;
+            // continue the loop to send local path to download the file to
         }
     }
 }
+
+
 //this is the main client program
 int main(int argc, char** argv) {
+    //TODO delete prints
     cout << "this is the client program"<<endl;
     // check if number of argument is valid
     if (argc != 3) {
@@ -201,6 +213,7 @@ int main(int argc, char** argv) {
         perror("error connecting to server");
         return 0;
     }
+    // this loop is in charge of creating threads
     while(true) {
         // the tread identifiers
         pthread_t pthread_receive;

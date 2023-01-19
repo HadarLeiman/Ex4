@@ -47,7 +47,7 @@ void Command1_UploadData::execute() {
     testFile.close();
 
     //TODO fix test validation
-    if (unclassifiedFileValidation()){
+    if (unclassifiedFileValidation(vecSize)){
         //file is invalid
         dio->write("invalid input");
     }
