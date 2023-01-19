@@ -12,11 +12,11 @@ Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data* data) {
 }
 
 void Command1_UploadData::execute() {
-    cout << "this is command 1"<<endl;
-    dio->write("Please upload your local train CSV file.");
+    // train file part
+    dio->write("Please upload your local train CSV file.\n");
     //get the training data file as a string from the client sock
     string train_data = dio->read();
-    cout << "train_data: " << train_data << endl;
+    // save the train data in a file(server)
     ofstream trainFile("train_data.csv");
     // Send data to the stream
     trainFile << train_data;
@@ -33,30 +33,25 @@ void Command1_UploadData::execute() {
         dio->write("invalid input");
     }
     else{
-        dio->write("Upload complete.");
+        dio->write("Upload complete.\n");
     }
-
-    dio->write("Please upload your local test CSV file.");
-    //get the testing data file as a string from the client sock
+    // test file part
+    dio->write("Please upload your local test CSV file.\n");
+    //get the test_data data file as a string from the client sock
     string test_data = dio->read();
-    cout << "test_data: " << test_data << endl;
+    //save the tets data in a file(server)
     ofstream testFile("test_data.csv");
     // Send data to the stream
     testFile << test_data;
     // Close the file
     testFile.close();
 
-    //todo fix validation
-    vector<string> testing_data;
-    vector<vector<double>> testing;
-    vector<string> test_labels;
-    int vecSize2 = 0;
-    int numberOfSamples2 = 0;
-    if (!fileReader("test_data.csv", testing_data, train, test_labels, vecSize2, numberOfSamples2)) {
-        //problem reading file
+    //TODO fix test validation
+    if (unclassifiedFileValidation(vecSize)){
+        //file is invalid
         dio->write("invalid input");
     }
     else{
-        dio->write("Upload complete.");
+        dio->write("Upload complete.\n");
     }
 }

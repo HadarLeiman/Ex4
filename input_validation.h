@@ -46,4 +46,8 @@ void splitAlgorithmSettings(string input, string& function, string& k);
 //this is the ip number validation function
 bool ip_validation(string ip);
 
+bool unclassifiedFileValidation(int vecSize);
+
+bool testSampleValidation(string s, vector<double> &v, int &vecSize);
+
 #endif //EX3_INPUT_VALIDATION_H

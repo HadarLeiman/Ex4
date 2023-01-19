@@ -23,6 +23,7 @@ void *ThreadperClient(void* c) {
     close(*client_sock);
 }
 
+// this is the main server program
 int main(int argc, char** argv){
     cout<<"this is the server program"<<endl;
     // check if number of argument is valid
@@ -55,10 +56,8 @@ int main(int argc, char** argv){
         perror("error binding socket");
         close(sock);
         return 0;
-    }
-    // create thread array
-    pthread_t workingThreads[10];
-    int i =0;
+	}
+    while(true) {
         // Start listening
         if (listen(sock,0)<0){
             perror("error listening to a socket");
@@ -89,8 +88,6 @@ int main(int argc, char** argv){
         // wait for the thread to exit;
         cout << "after creating thread in server"<<endl;
         pthread_join(pthread_client, NULL);
-        workingThreads[i] = pthread_client;
-        i++;
         close(sock);
     }
 }
