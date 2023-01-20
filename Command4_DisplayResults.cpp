@@ -23,9 +23,11 @@ void Command4_DisplayResults::execute(){
     else{
         //write the results
         //TODO to send as one string or line by line (like now)
+        string results = "";
         for(int i = 0; i < this->data->unclassified_labels.size(); i++){
-            this->dio->write(to_string(i)+" "+this->data->unclassified_labels[i] + "\n");
+            results+=to_string(i)+" "+this->data->unclassified_labels[i] + "\n";
         }
-        this->dio->write("Done.\n");
+        cout << results << endl;
+        this->dio->write(results+"Done.\n");
     }
 }

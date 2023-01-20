@@ -147,6 +147,7 @@ void *sendThread(void* s) {
                 }
             }
 
+            //TODO fix handling invalid input
             // get user file path for the validation set
             string test_path = "";
             getline(cin, test_path);
@@ -183,6 +184,11 @@ void *sendThread(void* s) {
             getline(cin, path);
             filePath = path;
             // continue the loop to send local path to download the file to
+        }
+        else if (userInput == "8") {
+            // exit
+            close(*sock);
+            return 0;
         }
     }
 }
@@ -245,7 +251,8 @@ int main(int argc, char** argv) {
         // wait for the threads to exit;
         pthread_join(pthread_receive, NULL);
         pthread_join(pthread_send, NULL);
-    close(sock);
-    return 0;
+        close(sock);
+        return 0;
 
+    }
 }

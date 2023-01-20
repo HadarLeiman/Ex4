@@ -65,14 +65,14 @@ int main(int argc, char** argv){
             return 0;
         }
         // TODO while here or up?
-    while(true) {
+        while(true) {
         // accept client
         struct sockaddr_in client_sin;
         unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
             perror("error accepting client");
-//            continue;
+        //            continue;
             break;
         }
         //create a new thread to a new connected client
@@ -89,6 +89,6 @@ int main(int argc, char** argv){
         cout << "after creating thread in server"<<endl;
         pthread_join(pthread_client, NULL);
         close(sock);
+        }
     }
 }
-

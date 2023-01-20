@@ -35,40 +35,32 @@ bool vectorValidation(string s, vector<double>& v, char separator) {
     }
     return true;
 }
-bool unclassifiedFileValidation(int vecSize){
-    vector<vector<double>> testing;
-
-    ifstream file("test_data.csv");
-    vector<string> testing_data;
+bool unclassifiedFileValidation(const string &path, vector<vector<double>> &test, int &vecSize){
+    ifstream file(path);
+    // open file
     if (file) {
         string line = "";
-
+    // read file line by line
         while (getline(file, line)) {
-            string string_vec;
-            string_vec = line;
-
-            vector<double> line_vec;
-            if (testSampleValidation(string_vec, line_vec, vecSize)) {
-            testing_data.push_back(string_vec);
-            } else {
+            // convert string row into a vector if possible
+            vector<double> v;
+            line = line.substr(0, line.length()-1);
+            line = line + ",";
+            if(!(vectorValidation(line, v, ','))){
                 return false;
             }
+            // check if the vector size is equal to the train vector size
+            if (vecSize != v.size()) {
+                return false;
+            }
+            // add the vector to the test vector of vectors
+            test.push_back(v);
         }
         file.close();
+        return true;
     }
-    return true;
-}
-
-bool testSampleValidation(string s, vector<double> &v, int &vecSize) {
-    char separator = ' ';
-    s += ' ';
-    if (!(vectorValidation(s, v, separator))) {
-        return false;
-    }
-    else if (vecSize != v.size()) {
-        return false;
-    }
-    return true;
+    // file is not open
+    return false;
 }
 
 bool isInteger(string intStr){
