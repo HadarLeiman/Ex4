@@ -13,9 +13,9 @@ Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data* data) {
 
 void Command1_UploadData::execute() {
     // train file part
-    dio->write("Please upload your local train CSV file.\n");
+    this->dio->write("Please upload your local train CSV file.\n");
     //get the training data file as a string from the client sock
-    string train_data = dio->read();
+    string train_data = this->dio->read();
     // save the train data in a file(server)
     ofstream trainFile("train_data.csv");
     // Send data to the stream
@@ -30,15 +30,18 @@ void Command1_UploadData::execute() {
     int numberOfSamples = 0;
     if (!fileReader("train_data.csv", training_data, train, train_labels, vecSize, numberOfSamples)) {
         //problem reading file
-        dio->write("invalid input");
+        this->dio->write("invalid input");
+        return;
     }
     else{
-        dio->write("Upload complete.\n");
+        this->data->classified = train;
+        this->data->classified_labels = train_labels;
+        this->dio->write("Upload complete.\n");
     }
     // test file part
-    dio->write("Please upload your local test CSV file.\n");
+    this->dio->write("Please upload your local test CSV file.\n");
     //get the test_data data file as a string from the client sock
-    string test_data = dio->read();
+    string test_data = this->dio->read();
     //save the tets data in a file(server)
     ofstream testFile("test_data.csv");
     // Send data to the stream
@@ -47,11 +50,13 @@ void Command1_UploadData::execute() {
     testFile.close();
 
     //TODO fix test validation
-    if (unclassifiedFileValidation(vecSize)){
+    vector<vector<double>> test_data_vec;
+    if (!unclassifiedFileValidation("test_data.csv",test_data_vec,vecSize)){
         //file is invalid
-        dio->write("invalid input");
+        this->dio->write("invalid input\n");
     }
     else{
-        dio->write("Upload complete.\n");
+        this->data->unclassified = test_data_vec;
+        this->dio->write("Upload complete.\n");
     }
 }

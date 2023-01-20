@@ -9,10 +9,6 @@ using namespace std;
 //the function gets a string and converts it to a vector of double features if possible.
 bool vectorValidation(string s, vector<double>& v, char separator);
 
-//This function verifies the sample entered by the user of the program
-//returns false if the sample is not valid for any reason or true otherwise.
-bool testSampleValidation(string s, vector<double>& v, int &vecSize);
-
 //This function checks if the given input of the function name is one of our 5 distance functions.
 //returns true if it does or false otherwise.
 bool DistFuncValid(string func);
@@ -46,8 +42,6 @@ void splitAlgorithmSettings(string input, string& function, string& k);
 //this is the ip number validation function
 bool ip_validation(string ip);
 
-bool unclassifiedFileValidation(int vecSize);
-
-bool testSampleValidation(string s, vector<double> &v, int &vecSize);
+bool unclassifiedFileValidation(const string &path, vector<vector<double>> &test, int &vecSize);
 
 #endif //EX3_INPUT_VALIDATION_H

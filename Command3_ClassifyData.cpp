@@ -14,6 +14,7 @@ void Command3_ClassifyData::execute(){
     cout << "this is command 3"<<endl;
     //check if data was uploaded
     //TODO can only one file be uploaded?
+
     if(this->data->classified.size() != 0 && this->data->unclassified.size() != 0){
         // create knn classifier, fit and predict.
         KNeighborsClassifier model(this->data->k, this->data->distance_metric_name);
