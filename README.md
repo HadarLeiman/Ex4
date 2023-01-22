@@ -32,17 +32,15 @@ The client program can be initialized with 2 command line arguments:
 3. Install a c++ compiler (If you don't have one installed)
 4. run `make`  
 
-for server run ./server.out [Port number]  
-for client run ./client.out [IP number] [Port number]  
-How to use:
-
 
 ### compile and run the example:  
 Compile and run the server:  
+for server run ./server.out [Port number]  
 
 <img src="https://user-images.githubusercontent.com/72741540/213941242-e6e6a74c-82cc-4468-ac0b-4db45a32b14f.png" width="300" height="50">
 
 Run the Client:  
+for client run ./client.out [IP number] [Port number]  
 
 <img src="https://user-images.githubusercontent.com/72741540/213940985-849bc4f1-a73a-4e75-982a-4d29cf71b489.png" width="500" height="500">  
 
