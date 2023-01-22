@@ -4,8 +4,8 @@ Multiple clients can connect to the server using the server's port number.
 Each client connected to the server is handled by a unique thread on the server side and most of the time by two unique threads on the client side (a send thread and a receiver thread that communicate with the server). the exception is on the 5-th command which is explained underneath.  
 Each tread on the server side creates a CLI instance which will be in charge of executing the right command for the client user.  
 
-The server provides several actions in a menu display that the client prints to the user of the program to choose from.
-The menu contains the following options:
+The server provides several actions in a menu display that the client prints to the user of the program to choose from.  
+The menu contains the following options:  
 1. Upload classified and unclassified CSV files
 2. Get or change the algorithm settings (distance metric name/number k), the default values are set to be k=5 and distance metric = EUC.
 3. classify the unclassified data file according to the classified data assuming that option 1 was completed before option 3.
@@ -14,10 +14,10 @@ The menu contains the following options:
 8. Exit the program, this option will close the connection of the server and will end the client program. (the server will continue running).
 
 additional information:
-The server is running the knn algorithm which was implemented in a previous exercise. 
-If the user enters invalid input the program will print "Invalid input" to the screen and continue displaying the menu.
+The server is running the knn algorithm which was implemented in a previous exercise.  
+If the user enters invalid input the program will print "Invalid input" to the screen and continue displaying the menu.  
 
-This directory contains 2 executable programs that can be created using the 'make' command.
+This directory contains 2 executable programs that can be created using the 'make' command.  
 
 The server program is initialized with 1 command line arguments:
 (1) port number.
