@@ -45,7 +45,6 @@ void *saveFileThread(void* d) {
         string path = data.substr(data.find_last_of("*")+1);
         // get data without *path
         data = data.substr(0, data.find_last_of("*"));
-        // add file name to path
 
         // save data to file
         ofstream file(path, ofstream::trunc);
