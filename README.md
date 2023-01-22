@@ -1,7 +1,7 @@
 #Ex4 - TCP server-client application.
 This program is a TCP server and client in c++ for Linux.
 Multiple clients can connect to the server using the server's port number.
-Each client connected to the server is handled by a unique thread on the server side and most of the time by two unique threads on the client side (a send thread and a receiver that communicate with the server). the exception is for the 5-th command which is explained underneath.
+Each client connected to the server is handled by a unique thread on the server side and most of the time by two unique threads on the client side (a send thread and a receiver thread that communicate with the server). the exception is for the 5-th command which is explained underneath.
 Each tread on the server side creates a CLI instance which will be in charge of executing the right command for the client user.
 
 The server provides several actions in a menu display that the client prints to the user of the program to choose from.
