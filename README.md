@@ -1,4 +1,4 @@
-#Ex4 - TCP server-client application.  
+## Ex4 - TCP server-client application.  
 This program is a TCP server and client in c++ for Linux.  
 Multiple clients can connect to the server using the server's port number.  
 Each client connected to the server is handled by a unique thread on the server side and most of the time by two unique threads on the client side (a send thread and a receiver thread that communicate with the server). the exception is on the 5-th command which is explained underneath.  
