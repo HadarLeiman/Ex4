@@ -41,6 +41,6 @@ How to use:
 Compile and run the server:  
 <img src="https://user-images.githubusercontent.com/72741540/210270630-672e618a-e945-4c12-807f-c62512b7ca46.png" width="1000" height="300">
 Run the Client:  
-<img src="https://user-images.githubusercontent.com/72741540/213940985-849bc4f1-a73a-4e75-982a-4d29cf71b489.png" width="600" height="300">  
+<img src="https://user-images.githubusercontent.com/72741540/213940985-849bc4f1-a73a-4e75-982a-4d29cf71b489.png" width="500" height="300">  
 
-<img src="https://user-images.githubusercontent.com/72741540/213941016-71b4c603-ef4c-4292-9303-1c68e92c9abf.png" width="600" height="300">
+<img src="https://user-images.githubusercontent.com/72741540/213941016-71b4c603-ef4c-4292-9303-1c68e92c9abf.png" width="400" height="300">
