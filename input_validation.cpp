@@ -1,6 +1,3 @@
-//
-// Created by USER on 28/12/2022.
-//
 #include <vector>
 #include <string>
 #include <iostream>
@@ -35,16 +32,20 @@ bool vectorValidation(string s, vector<double>& v, char separator) {
     }
     return true;
 }
-bool unclassifiedFileValidation(const string &path, vector<vector<double>> &test, int &vecSize){
-    ifstream file(path);
-    // open file
-    if (file) {
-        string line = "";
+
+bool unclassifiedFileValidation(string test_data, vector<vector<double>> &test, int &vecSize){
+    string line = "";
     // read file line by line
-        while (getline(file, line)) {
+    for (int i = 0; i < test_data.length(); i++) {
+        if (test_data[i] == '\r'){
+            continue;
+        }
+        else if (test_data[i] != '\n') {
+            line += test_data[i];
+        }
+        else {
             // convert string row into a vector if possible
             vector<double> v;
-            line = line.substr(0, line.length()-1);
             line = line + ",";
             if(!(vectorValidation(line, v, ','))){
                 return false;
@@ -55,12 +56,13 @@ bool unclassifiedFileValidation(const string &path, vector<vector<double>> &test
             }
             // add the vector to the test vector of vectors
             test.push_back(v);
+            line = "";
         }
-        file.close();
-        return true;
     }
-    // file is not open
-    return false;
+    if (line != "") {
+        return false;
+    }
+    return true;
 }
 
 bool isInteger(string intStr){
@@ -112,7 +114,7 @@ bool DistFuncValid(string func) {
 
 bool fileReader(const string &path, vector<string> &data, vector<vector<double>> &train, vector<string> &lables, int &vecSize, int &numSamp) {
     DataProcessor training_samples(path);
-    data = training_samples.readFile();
+    data = training_samples.readString();
     if (!data.size()) {
         cout << "file is not valid or empty." << endl;
         return false;
@@ -125,7 +127,7 @@ bool fileReader(const string &path, vector<string> &data, vector<vector<double>>
     numSamp = training_samples.gettrainSamplesNumber();
     return true;
 }
-//
+
 void splitUserInput(string input_from_user, string& vec, string& function, string& k){
     int k_index = 0;
     int func_index =0;
@@ -144,7 +146,6 @@ void splitUserInput(string input_from_user, string& vec, string& function, strin
     }
 }
 
-// TODO did i used this?
 void splitAlgorithmSettings(string input, string& function, string& k){
     int i = 0;
     while(input[i] != ' ' && i < input.length()){

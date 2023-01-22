@@ -18,8 +18,8 @@ BUILD_FILES += Command1_UploadData.o
 BUILD_FILES += Command2_AlgorithmSettings.o
 BUILD_FILES += Command3_ClassifyData.o
 BUILD_FILES += Command4_DisplayResults.o
+BUILD_FILES += Command5_downloadResults.o
 BUILD_FILES += CLI.o
-BUILD_FILES += StandardIO.o
 
 
 all: $(BUILD_FILES) server.o client.o

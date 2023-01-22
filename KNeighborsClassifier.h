@@ -1,6 +1,3 @@
-//
-// Created by Hadar on 28/12/2022.
-//
 #ifndef EX3_KNEIGHBORSCLASSIFIER_H
 #define EX3_KNEIGHBORSCLASSIFIER_H
 

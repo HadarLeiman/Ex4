@@ -1,7 +1,3 @@
-//
-// Created by USER on 15/01/2023.
-//
-
 #include "Command1_UploadData.h"
 
 //this is the first command class
@@ -14,49 +10,65 @@ Command1_UploadData::Command1_UploadData(DefaultIO *dio, Data* data) {
 void Command1_UploadData::execute() {
     // train file part
     this->dio->write("Please upload your local train CSV file.\n");
+    if(this->dio->error) return; // check if write was successful
+
     //get the training data file as a string from the client sock
     string train_data = this->dio->read();
-    // save the train data in a file(server)
-    ofstream trainFile("train_data.csv");
-    // Send data to the stream
-    trainFile << train_data;
-    // Close the file
-    trainFile.close();
+    if(this->dio->error) return; // check if read was successful
 
-    vector<string> training_data;
-    vector<vector<double>> train;
-    vector<string> train_labels;
-    int vecSize = 0;
-    int numberOfSamples = 0;
-    if (!fileReader("train_data.csv", training_data, train, train_labels, vecSize, numberOfSamples)) {
-        //problem reading file
-        this->dio->write("invalid input");
-        return;
-    }
-    else{
-        this->data->classified = train;
-        this->data->classified_labels = train_labels;
-        this->dio->write("Upload complete.\n");
-    }
-    // test file part
-    this->dio->write("Please upload your local test CSV file.\n");
-    //get the test_data data file as a string from the client sock
-    string test_data = this->dio->read();
-    //save the tets data in a file(server)
-    ofstream testFile("test_data.csv");
-    // Send data to the stream
-    testFile << test_data;
-    // Close the file
-    testFile.close();
+    if(train_data!="invalid"){
 
-    //TODO fix test validation
-    vector<vector<double>> test_data_vec;
-    if (!unclassifiedFileValidation("test_data.csv",test_data_vec,vecSize)){
-        //file is invalid
+        vector<string> training_data;
+        vector<vector<double>> train;
+        vector<string> train_labels;
+        int vecSize = 0;
+        int numberOfSamples = 0;
+        // read the train_data string to string vector and then to vector of vectors (train data) and vector of strings (train labels)
+        if (!fileReader(train_data, training_data, train, train_labels, vecSize, numberOfSamples)) {
+            //problem reading train_data string
+            this->dio->write("invalid input\n");
+            return;
+        }
+        else{
+            this->dio->write("Upload complete.\n");
+            if(this->dio->error) return; // check if write was successful
+            // save the train data in the data object
+
+
+            // test file part
+            this->dio->write("Please upload your local test CSV file.\n");
+            if(this->dio->error) return; // check if write was successful
+
+            //get the test_data data file as a string from the client sock
+            string test_data = this->dio->read();
+            if(this->dio->error) return; // check if read was successful
+
+            if(test_data!="invalid"){
+
+                vector<vector<double>> test_data_vec;
+                // read the test_data string to vector of vectors (test data)
+                if (!unclassifiedFileValidation(test_data ,test_data_vec,vecSize)){
+                    //test string is invalid
+                    this->dio->write("invalid input\n");
+                }
+                else{
+                    this->data->unclassified = test_data_vec;
+                    this->data->classified = train;
+                    this->data->classified_labels = train_labels;
+                    this->data->vec_size = vecSize;
+                    // empty the unclassified labels vector
+                    this->data->unclassified_labels.clear();
+                    this->dio->write("Upload complete.\n");
+                }
+            } else {
+                // invalid path/ file is empty
+                this->dio->write("invalid input\n");
+                return;
+            }
+        }
+    } else {
+        // invalid path/ file is empty
         this->dio->write("invalid input\n");
-    }
-    else{
-        this->data->unclassified = test_data_vec;
-        this->dio->write("Upload complete.\n");
+        return;
     }
 }

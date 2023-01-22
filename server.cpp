@@ -6,26 +6,28 @@
 #include <vector>
 #include <unistd.h>
 #include "input_validation.h"
-#include "KNeighborsClassifier.h"
 #include "DefaultIO.h"
 #include "SocketIO.h"
 #include "CLI.h"
 #include <pthread.h>
 using namespace std;
 
-void *ThreadperClient(void* c) {
+void *threadPerClient(void* c) {
     int* client_sock = (int*)c;
+    // create a socketIO object for the client
     DefaultIO* dio = new SocketIO(*client_sock);
+    // create a CLI object for the client
     CLI cli = CLI(dio);
+    // start the CLI
     cli.start();
-    //TODO delete
+    //free memory and close socket
     delete dio;
     close(*client_sock);
+    delete client_sock;
 }
 
 // this is the main server program
 int main(int argc, char** argv){
-    cout<<"this is the server program"<<endl;
     // check if number of argument is valid
     if (argc != 2) {
         cout << "Expected 1 arguments but " << argc-1 << " were given" <<  endl;
@@ -56,24 +58,22 @@ int main(int argc, char** argv){
         perror("error binding socket");
         close(sock);
         return 0;
-	}
+    }
+
+    // Start listening
+    if (listen(sock,5)<0){
+        perror("error listening to a socket");
+        close(sock);
+        return 0;
+    }
     while(true) {
-        // Start listening
-        if (listen(sock,0)<0){
-            perror("error listening to a socket");
-            close(sock);
-            return 0;
-        }
-        // TODO while here or up?
-        while(true) {
         // accept client
         struct sockaddr_in client_sin;
         unsigned int addr_len = sizeof(client_sin);
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
             perror("error accepting client");
-        //            continue;
-            break;
+            continue;
         }
         //create a new thread to a new connected client
         // the tread identifiers
@@ -82,13 +82,19 @@ int main(int argc, char** argv){
         pthread_attr_t attr;
         // set the default attributes of the thread
         pthread_attr_init(&attr);
+        // save the client socket in the heap memory
+        int* client_sock_ptr = new int(client_sock);
         //create the thread
-        cout << "before creating thread in server"<<endl;
-        pthread_create(&pthread_client, &attr, ThreadperClient, (void *) &client_sock);
-        // wait for the thread to exit;
-        cout << "after creating thread in server"<<endl;
-        pthread_join(pthread_client, NULL);
-        close(sock);
+        int ret = pthread_create(&pthread_client, &attr, threadPerClient, (void *) client_sock_ptr);
+        if (ret != 0) {
+            perror("Error creating thread");
+            close(client_sock);
+            delete client_sock_ptr;
+            continue;
         }
+        // detach the thread from the main program to create a new thread for each client
+        // and dispose of the thread when it is done
+        pthread_detach(pthread_client);
     }
+    close(sock);
 }

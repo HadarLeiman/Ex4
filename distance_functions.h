@@ -1,7 +1,3 @@
-//
-// Created by Hadar on 28/12/2022.
-//
-
 #ifndef EX3_DISTANCE_FUNCTIONS_H
 #define EX3_DISTANCE_FUNCTIONS_H
 #include <vector>
