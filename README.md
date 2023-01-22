@@ -1,21 +1,21 @@
-#Ex4 - TCP server multi-client and multi-threads
+#Ex4 - TCP server-client application.
 This program is a TCP server and client in c++ for Linux.
-Multiple clients can connect to the server at the same time using the server's port number and choose an action from the given menu.
-the server has 5 options on the menu:
-1. upload an unclassified csv data file
-2. algorithm settings
-3. classify data
-4. display results
-5. download results
-8. exit
+Multiple clients can connect to the server using the server's port number.
+Each client connected to the server is handled by a unique thread on the server side and most of the time by two unique threads on the client side (a send thread and a receiver that communicate with the server). the exception is for the 5-th command which is explained underneath.
+Each tread on the server side creates a CLI instance which will be in charge of executing the right command for the client user.
 
-In general speaking, the server can classify an unclassified file that the user uploaded after he uploaded a classified file.
-the user can ask to see or change the settings of the knn algorithm acting on the server side, the program would display the current distance metric name and the number k of the algorithm.
-the user can choose to download the results of the classification to a specified path on his computer.
-The server is running the knn algorithm (which we implemented in a previous exercise) and returns a predicted classification of the client's unclassified file to the client/user.
-the server is waiting for the clients, the server can take care of multiple clients in parallel by creating a new thread for each client accepted by the socket. when a user is done using the server services it can choose (8) from the menu to exit the program, in that case the client closes the connection to the server. The server stayes open for his clients and will continue accepting new clients. while the is client connected it will continue o send and receive messages from the server, if the user input is invalid the program will print "Invalid input" to the screen and continue displaying the menu.
-Inside the client program after secssesfully connecting to the server socket the program creates two threads a send thread and a receive thread.
-in the case the users chooses 5 from the menu the client program creates another thread that will save the file content in the user computer.
+The server provides several actions in a menu display that the client prints to the user of the program to choose from.
+The menu contains the following options:
+1. Upload classified and unclassified CSV files
+2. Get or change the algorithm settings (distance metric name/number k), the default values are set to be k=5 and distance metric = EUC.
+3. classify the unclassified data file according to the classified data assuming that option 1 was completed before option 3.
+4. display the results of the classification assuming option 3 was completed before.
+5. download the result to a path in the user's computer specified by him including the name of the file to be created,  again assuming option 3 was completed before. this action happens in a different thread.
+8. Exit the program, this option will close the connection of the server and will end the client program. (the server will continue running).
+
+additional information:
+The server is running the knn algorithm which was implemented in a previous exercise. 
+If the user enters invalid input the program will print "Invalid input" to the screen and continue displaying the menu.
 
 This directory contains 2 executable programs that can be created using the 'make' command.
 
@@ -38,4 +38,5 @@ How to use:
 
 
 compile and run the example:
+
 Compile and run the server:
