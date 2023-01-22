@@ -1,7 +1,3 @@
-//
-// Created by USER on 15/01/2023.
-//
-
 #ifndef EX4_COMMAND1_UPLOADDATA_H
 #define EX4_COMMAND1_UPLOADDATA_H
 #include <iostream>
@@ -17,7 +13,10 @@
 
 class Command1_UploadData : public Command {
 public:
+    // Constructor
     Command1_UploadData(DefaultIO *dio, Data *data);
+    // command 1 execute function
+    // this function uploads the train and test data from the client to the server and save it in the data object
     void execute();
 };
 

@@ -1,7 +1,3 @@
-//
-// Created by USER on 28/12/2022.
-//
-
 #include "DataProcessor.h"
 #include "input_validation.h"
 using namespace std;
@@ -14,12 +10,31 @@ vector<string> DataProcessor::readFile() {
 
         while (getline(file, line)) {
             string string_vec;
-            string_vec = line;
+            string_vec = line.substr(0, line.length()-1);
             data.push_back(string_vec);
         }
         file.close();
         this->trainSamplesNumber = data.size();
     }
+    return data;
+}
+
+vector<string> DataProcessor::readString() {
+    vector<string> data;
+    // read fileName line by line
+    string line = "";
+    for (int i = 0; i < this->fileName.length(); i++) {
+        if(this->fileName[i] == '\r'){
+            continue;
+        }
+        else if (this->fileName[i] != '\n') {
+            line += this->fileName[i];
+        } else {
+            data.push_back(line);
+            line = "";
+        }
+    }
+    this->trainSamplesNumber = data.size();
     return data;
 }
 

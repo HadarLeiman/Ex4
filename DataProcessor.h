@@ -29,6 +29,9 @@ public:
     //This function reads a CSV file into a vector of strings if possible.
     vector<string> readFile();
 
+    //This function reads a String into a vector of strings if possible.
+    vector<string> readString();
+
     // This function gets a data vector of strings and calls a function that splits
     // the data for every sample if it's possible.
     // if the number of features in a sample is not consistent with the others the

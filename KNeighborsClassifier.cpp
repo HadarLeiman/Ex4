@@ -1,6 +1,3 @@
-//
-// Created by USER on 28/12/2022.
-//
 #include "KNeighborsClassifier.h"
 using namespace std;
 

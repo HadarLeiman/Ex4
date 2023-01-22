@@ -1,6 +1,3 @@
-//
-// Created by USER on 28/12/2022.
-//
 #include "distance_functions.h"
 
 double euclideanDistance(vector<double> v1, vector<double> v2) {

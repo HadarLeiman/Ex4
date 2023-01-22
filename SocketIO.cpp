@@ -1,7 +1,3 @@
-//
-// Created by Hadar on 15/01/2023.
-//
-
 #include "SocketIO.h"
 
 SocketIO::SocketIO(int client_sock){
@@ -13,29 +9,34 @@ string SocketIO::read(){
     char dataFromClient[4096];
     bzero(dataFromClient, 4096);
     int expected_data_len = sizeof(dataFromClient);
-
+    bool is_file_flag = false;
     string data ="";
     while(true) {
         bzero(dataFromClient, 4096);
         int read_bytes = recv(this->client_sock, dataFromClient, expected_data_len, 0);
-        //TODO what to do in the first and the second case?
         // connection is closed
         if (read_bytes == 0) {
             perror("connection is closed");
-            close(client_sock);
+            this->error = true;
             return "error1";
         }// error receiving from client
         else if (read_bytes < 0) {
             perror("error receiving from client");
-            close(client_sock);
+            this->error = true;
             return "error2";
-        } else if (read_bytes < 4095) {
-            cout << "(read_bytes < 4095) "<<read_bytes<<endl;
-            data += dataFromClient;
+        } else if (read_bytes < 4095 && !is_file_flag) {
+            data.append(dataFromClient, read_bytes);
+            if (data[data.length()-1] == '$') data = data.substr(0, data.length()-1);
             break;
-        } else {
-            cout << " data += dataFromClient "<<read_bytes<<endl;
-            data += dataFromClient;
+        }
+        else if (is_file_flag && dataFromClient[read_bytes-1] == '$'){
+            data.append(dataFromClient, read_bytes);
+            data = data.substr(0, data.length()-1);
+            break;
+        }
+        else {
+            is_file_flag = true;
+            data.append(dataFromClient, read_bytes);
         }
     }
     // return the data the client sent
@@ -46,8 +47,6 @@ void SocketIO::write(string str) {
     // send
     char str_to_char_arr[(str).length()];
     strcpy(str_to_char_arr, str.c_str());
-    cout<<"socket io about to send"<<endl;
-    cout <<str_to_char_arr<<endl;
     if (str.length() > 4095){
         int init_index = 0;
         // send file content in a loop
@@ -59,22 +58,20 @@ void SocketIO::write(string str) {
             int sent_bytes = send(this->client_sock, str_to_char_arr, sizeof(str_to_char_arr), 0);
             if (sent_bytes < 0) {
                 perror("error sending to client");
-                close(client_sock);
+                this->error = true;
             }
             // update substring start position
             init_index += 4095;
-            // TODO
             if (part_of_data_to_send.length() < 4095) {
                 // done sending file content
                 break;
             }
         }
     } else {
-        cout << "didn't enter if in socket io write"<<endl;
         int sent_bytes = send(this->client_sock, str_to_char_arr, sizeof(str_to_char_arr), 0);
         if (sent_bytes < 0) {
             perror("error sending to client");
-            close(client_sock);
+            this->error = true;
         }
     }
 }
