@@ -40,7 +40,7 @@ How to use:
 ### compile and run the example:  
 Compile and run the server:  
 
-<img src="https://user-images.githubusercontent.com/72741540/213941242-e6e6a74c-82cc-4468-ac0b-4db45a32b14f.png" width="200" height="50">
+<img src="https://user-images.githubusercontent.com/72741540/213941242-e6e6a74c-82cc-4468-ac0b-4db45a32b14f.png" width="300" height="50">
 
 Run the Client:  
 
