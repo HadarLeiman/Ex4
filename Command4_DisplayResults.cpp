@@ -19,7 +19,7 @@ void Command4_DisplayResults::execute(){
         //write the results
         string results = "";
         for(int i = 0; i < this->data->unclassified_labels.size(); i++){
-            results+=to_string(i+1)+" "+this->data->unclassified_labels[i].substr(0, this->data->unclassified_labels[i].length()-1) + "\n";
+            results+=to_string(i+1)+"   "+this->data->unclassified_labels[i].substr(0, this->data->unclassified_labels[i].length()-1) + "\n";
         }
         this->dio->write(results+"Done.\n");
     }
