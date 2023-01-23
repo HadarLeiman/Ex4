@@ -45,6 +45,8 @@ void *saveFileThread(void* d) {
         string path = data.substr(data.find_last_of("*")+1);
         // get data without *path
         data = data.substr(0, data.find_last_of("*"));
+//        // add file name to path
+//        path += "/classifiedDate.csv";
 
         // save data to file
         ofstream file(path, ofstream::trunc);
@@ -70,14 +72,16 @@ void *receiveThread(void* s) {
         // receive info from server
         char buffer[4096];
         //clean buffer
-        bzero(buffer, 4096);
+
         int expected_data_len = sizeof(buffer);
 
         string data ="";
         // getting the information part by part-if the info is bigger than the buffer size.
         while(true) {
             // receive
+            bzero(buffer, 4096);
             int read_bytes = recv(*sock, buffer, expected_data_len, 0);
+
             if (read_bytes == 0) {
                 // connection is closed
                 close(*sock);
@@ -86,7 +90,7 @@ void *receiveThread(void* s) {
                 cout << "Error receiving data from server";
                 close(*sock);
                 return 0;
-            } else if (read_bytes < sizeof(buffer)) {
+            } else if (read_bytes < 4095) {
                 //  done receiving the whole message from server.
                 data.append(buffer, read_bytes);
                 break;

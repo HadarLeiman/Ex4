@@ -44,17 +44,18 @@ string SocketIO::read(){
 }
 
 void SocketIO::write(string str) {
-    // send
-    char str_to_char_arr[(str).length()];
-    strcpy(str_to_char_arr, str.c_str());
+    // if the string is too long, send it in a loop
     if (str.length() > 4095){
         int init_index = 0;
         // send file content in a loop
         while(true) {
-            bzero(str_to_char_arr, 4096);
             // substring to send
             string part_of_data_to_send =  str.substr(init_index, 4095);
+            // create char array for this part of data
+            char str_to_char_arr[(part_of_data_to_send).length()];
+            // copy the string part to the char array
             strcpy(str_to_char_arr, part_of_data_to_send.c_str());
+
             int sent_bytes = send(this->client_sock, str_to_char_arr, sizeof(str_to_char_arr), 0);
             if (sent_bytes < 0) {
                 perror("error sending to client");
@@ -62,12 +63,14 @@ void SocketIO::write(string str) {
             }
             // update substring start position
             init_index += 4095;
-            if (part_of_data_to_send.length() < 4095) {
+            if (sent_bytes < 4095) {
                 // done sending file content
                 break;
             }
         }
-    } else {
+    } else { // send the string
+        char str_to_char_arr[(str).length()];
+        strcpy(str_to_char_arr, str.c_str());
         int sent_bytes = send(this->client_sock, str_to_char_arr, sizeof(str_to_char_arr), 0);
         if (sent_bytes < 0) {
             perror("error sending to client");
