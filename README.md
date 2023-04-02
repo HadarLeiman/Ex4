@@ -1,30 +1,16 @@
-## Ex4 - TCP server-client application.  
-This program is a TCP server and client in c++ for Linux.  
-Multiple clients can connect to the server using the server's port number.  
-Each client connected to the server is handled by a unique thread on the server side and most of the time by two unique threads on the client side (a send thread and a receiver thread that communicate with the server). the exception is on the 5-th command which is explained underneath.  
-Each tread on the server side creates a CLI instance which will be in charge of executing the right command for the client user.  
+# TCP server-client application 
+This is a TCP server-client application written in C++ for Linux. The program allows multiple clients to connect to the server using the server's port number. Each client is handled by a unique thread on the server side and by two unique threads on the client side, one for sending messages and one for receiving messages. 
 
-The server provides several actions in a menu display that the client prints to the user of the program to choose from.  
-The menu contains the following options:  
+### Server Functionality
+Each thread on the server side creates a Command Line Interface (CLI) instance, which is responsible for executing commands for the client user. The server provides a menu display with the following options:
 1. Upload classified and unclassified CSV files
-2. Get or change the algorithm settings (distance metric name/number k), the default values are set to be k=5 and distance metric = EUC.
-3. classify the unclassified data file according to the classified data assuming that option 1 was completed before option 3.
-4. display the results of the classification assuming option 3 was completed before.
-5. download the result to a path in the user's computer specified by him including the name of the file to be created,  again assuming option 3 was completed before. this action happens in a different thread.
-8. Exit the program, this option will close the connection of the server and will end the client program. (the server will continue running).
-
-additional information:
-The server is running the knn algorithm which was implemented in a previous exercise.  
-If the user enters invalid input the program will print "Invalid input" to the screen and continue displaying the menu.  
-
-This directory contains 2 executable programs that can be created using the 'make' command.  
-
-The server program is initialized with 1 command line arguments:
-(1) port number.
-The client program can be initialized with 2 command line arguments:
-(1) IP number of the user using the program.
-(2) port number of the server to connect to.
-
+2. Get or change the KNN algorithm settings- the distance metric name and k value where k is an integer and a valid distance function name is one of the following: AUC (for [Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)), MAN (for [Manhattan distance](https://en.wikipedia.org/wiki/Taxicab_geometry)), CHB (for [Chebyshev distance](https://en.wikipedia.org/wiki/Chebyshev_distance)), CAN (for [Canberra distance](https://en.wikipedia.org/wiki/Canberra_distance)) or MIN (for [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance)). The default values are k=5 and distance metric = EUC.
+3. Classify the unclassified data file using the [KNN algorithms](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) according to the classified data (assuming option 1 was completed before option 3).
+4. Display the results of the classification (assuming option 3 was completed before).
+5. Download the result to a path in the user's computer specified by the user, including the name of the file to be created (assuming option 3 was completed before). This action happens in a different thread.
+8. Exit the program. This option will close the server's connection but keep the server running.
+ 
+If the user enters invalid input the program will print "Invalid input" to the screen and return to the menu.  
 
 ## **How to Install and Run (UNIX users):**
 1. Download files
@@ -35,12 +21,12 @@ The client program can be initialized with 2 command line arguments:
 
 ### compile and run the example:  
 Compile and run the server:  
-for server run ./server.out [Port number]  
+for server run `./server.out [Port number]`  
 
 <img src="https://user-images.githubusercontent.com/72741540/213941242-e6e6a74c-82cc-4468-ac0b-4db45a32b14f.png" width="300" height="50">
 
 Run the Client:  
-for client run ./client.out [IP number] [Port number]  
+for client run `./client.out [IP number] [Port number]` 
 
 <img src="https://user-images.githubusercontent.com/72741540/213940985-849bc4f1-a73a-4e75-982a-4d29cf71b489.png" width="500" height="500">  
 
